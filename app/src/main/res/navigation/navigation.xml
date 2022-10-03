@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/introFragment">
 
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.example.semestralnezadanie.fragments.IntroFragment"
+        android:label="IntroFragment" >
+
+        <argument
+            android:name="parseName"
+            app:argType="string"
+            android:defaultValue="."/>
+
+        <action
+            android:id="@+id/action_introFragment_to_formFragment"
+            app:destination="@id/formFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fetchFragment"
+        android:name="com.example.semestralnezadanie.fragments.FetchFragment"
+        android:label="FetchFragment" />
+    <fragment
+        android:id="@+id/formFragment"
+        android:name="com.example.semestralnezadanie.fragments.FormFragment"
+        android:label="FormFragment" >
+        <action
+            android:id="@+id/action_formFragment_to_fetchFragment"
+            app:destination="@id/fetchFragment" />
+    </fragment>
 </navigation>
