@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">SemestralneZadanie</string>
     <string name="prejst_formular">Prejsť na formulár</string>
+    <string name="title">Vyplňte údaje</string>
+    <string name="name">Zadajte meno</string>
+    <string name="companyName">Zadajte názov podniku</string>
+    <string name="companyLatitude">Zadajte zem.sirku podniku</string>
+    <string name="companyLongitude">Zadajte zem.dlzku podniku</string>
+    <string name="potvrdit">Potvrdiť</string>
+    <string name="showOnMap">Ukáž na mape</string>
 </resources>

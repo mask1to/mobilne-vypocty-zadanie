@@ -10,23 +10,60 @@
         android:name="com.example.semestralnezadanie.fragments.IntroFragment"
         android:label="IntroFragment" >
 
+        <action
+            android:id="@+id/action_introFragment_to_formFragment"
+            app:destination="@id/formFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fetchFragment"
+        android:name="com.example.semestralnezadanie.fragments.FetchFragment"
+        android:label="FetchFragment" >
+        <!--
+        <argument
+            android:name="setName"
+            app:argType="string"
+            android:defaultValue="." />
+        <argument
+            android:name="setCompanyName"
+            app:argType="string"
+            android:defaultValue="." />
+        <argument
+            android:name="setLatitude"
+            app:argType="float"
+            android:defaultValue="0" />
+        <argument
+            android:name="setLongitude"
+            app:argType="float"
+            android:defaultValue="0" />
+         -->
+    </fragment>
+
+    <fragment
+        android:id="@+id/formFragment"
+        android:name="com.example.semestralnezadanie.fragments.FormFragment"
+        android:label="FormFragment" >
+
         <argument
             android:name="parseName"
             app:argType="string"
             android:defaultValue="."/>
 
-        <action
-            android:id="@+id/action_introFragment_to_formFragment"
-            app:destination="@id/formFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/fetchFragment"
-        android:name="com.example.semestralnezadanie.fragments.FetchFragment"
-        android:label="FetchFragment" />
-    <fragment
-        android:id="@+id/formFragment"
-        android:name="com.example.semestralnezadanie.fragments.FormFragment"
-        android:label="FormFragment" >
+        <argument
+            android:name="parseCompanyName"
+            app:argType="string"
+            android:defaultValue="."/>
+
+        <argument
+            android:name="parseLatitude"
+            app:argType="float"
+            android:defaultValue="0.0"/>
+
+        <argument
+            android:name="parseLongitude"
+            app:argType="float"
+            android:defaultValue="0.0"/>
+
         <action
             android:id="@+id/action_formFragment_to_fetchFragment"
             app:destination="@id/fetchFragment" />
