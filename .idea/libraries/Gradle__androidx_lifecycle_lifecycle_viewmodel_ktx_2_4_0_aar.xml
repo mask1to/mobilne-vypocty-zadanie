@@ -2,8 +2,8 @@
   <library name="Gradle: androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/62860dcabfac12debe759be6e129a7c1/transformed/lifecycle-viewmodel-ktx-2.4.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/62860dcabfac12debe759be6e129a7c1/transformed/lifecycle-viewmodel-ktx-2.4.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/62860dcabfac12debe759be6e129a7c1/transformed/lifecycle-viewmodel-ktx-2.4.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/62860dcabfac12debe759be6e129a7c1/transformed/lifecycle-viewmodel-ktx-2.4.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

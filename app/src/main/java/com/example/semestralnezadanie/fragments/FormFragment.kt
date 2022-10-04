@@ -41,14 +41,13 @@ class FormFragment : Fragment(), View.OnClickListener,
         companyName = view.findViewById(R.id.companyName)
         companyLatitude = view.findViewById(R.id.companyLatitude)
         companyLongitude = view.findViewById(R.id.companyLongitude)
-        //val nameInputTxt = nameInput.text.toString()
-        //val companyNameTxt = companyName.text.toString()
-        //val companyLatitudeFloat = companyLatitude.text.toString().toFloat()
-        //val companyLongitudeFloat = companyLongitude.text.toString().toFloat()
+        val nameInputTxt = nameInput.text.toString()
+        val companyNameTxt = companyName.text.toString()
+        val companyLatitudeFloat = companyLatitude.text.toString()
+        val companyLongitudeFloat = companyLongitude.text.toString()
 
         view.findViewById<View>(R.id.confirmationBtn).setOnClickListener {
-            //val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, companyNameTxt, companyLatitudeFloat, companyLatitudeFloat)
-            val action = FormFragmentDirections.actionFormFragmentToFetchFragment()
+            val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, companyNameTxt, companyLatitudeFloat, companyLongitudeFloat)
             view.findNavController().navigate(action)
         }
     }
