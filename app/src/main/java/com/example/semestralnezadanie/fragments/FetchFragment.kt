@@ -1,27 +1,29 @@
 package com.example.semestralnezadanie.fragments
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.semestralnezadanie.R
 
-class FetchFragment: Fragment(), View.OnClickListener,
-    ActivityCompat.OnRequestPermissionsResultCallback
-{
 
+class FetchFragment: Fragment()
+{
     private lateinit var txtName : TextView
     private lateinit var txtCompany : TextView
     private lateinit var animationView: LottieAnimationView
     private lateinit var showOnMapBtn : Button
+    private var newLatitude : Float = 0.0f
+    private var newLongitude : Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -38,36 +40,57 @@ class FetchFragment: Fragment(), View.OnClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-
-       //animationView = view.findViewById(R.id.animation_view)
-        //setupAnimation(animationView)
-
         val safeArgs : FetchFragmentArgs by navArgs()
+
         val theName = safeArgs.setName
         val companyName = safeArgs.setCompanyName
         val companyLatitude = safeArgs.setLatitude
         val companyLongitude = safeArgs.setLongitude
 
-        Log.d("theName: ", theName.toString())
-        Log.d("companyName: ", companyName.toString())
-
         txtName = view.findViewById(R.id.fetchName)
         txtCompany = view.findViewById(R.id.fetchCompanyName)
 
-        //txtName.text = theName
-        //txtCompany.text = companyName
+        txtName.text = theName
+        txtCompany.text = companyName
 
-        view.findViewById<View>(R.id.showOnMapBtn).setOnClickListener {
-
+        if (!companyLatitude.isEmpty())
+        {
+            newLatitude = companyLatitude.toFloat()
+        }
+        if(!companyLongitude.isEmpty())
+        {
+            newLongitude = companyLongitude.toFloat()
         }
 
+        view.findViewById<View>(R.id.showOnMapBtn).setOnClickListener {
+            val uri =
+                "http://maps.google.com/maps?q=loc:$newLatitude,$newLongitude"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            startActivity(intent)
+        }
     }
 
-    override fun onClick(p0: View?)
-    {
-        TODO("Not yet implemented")
+    override fun onStart() {
+        super.onStart()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    @SuppressLint("Range")
     private fun setupAnimation(animationView: LottieAnimationView)
     {
         animationView.speed = 1.0F // How fast does the animation play

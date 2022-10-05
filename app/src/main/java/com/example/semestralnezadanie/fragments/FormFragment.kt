@@ -1,6 +1,7 @@
 package com.example.semestralnezadanie.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,12 +42,13 @@ class FormFragment : Fragment(), View.OnClickListener,
         companyName = view.findViewById(R.id.companyName)
         companyLatitude = view.findViewById(R.id.companyLatitude)
         companyLongitude = view.findViewById(R.id.companyLongitude)
-        val nameInputTxt = nameInput.text.toString()
-        val companyNameTxt = companyName.text.toString()
-        val companyLatitudeFloat = companyLatitude.text.toString()
-        val companyLongitudeFloat = companyLongitude.text.toString()
 
         view.findViewById<View>(R.id.confirmationBtn).setOnClickListener {
+            val nameInputTxt = nameInput.text.toString()
+            val companyNameTxt = companyName.text.toString()
+            val companyLatitudeFloat = companyLatitude.text.toString()
+            val companyLongitudeFloat = companyLongitude.text.toString()
+            Log.d("Meno: ", nameInputTxt)
             val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, companyNameTxt, companyLatitudeFloat, companyLongitudeFloat)
             view.findNavController().navigate(action)
         }
