@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_introFragment_to_formFragment"
             app:destination="@id/formFragment" />
+        <action
+            android:id="@+id/action_introFragment_to_recyclerFragment2"
+            app:destination="@id/recyclerFragment" />
     </fragment>
 
     <fragment
@@ -50,4 +53,8 @@
 
 
     </fragment>
+    <fragment
+        android:id="@+id/recyclerFragment"
+        android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
+        android:label="RecyclerFragment" />
 </navigation>

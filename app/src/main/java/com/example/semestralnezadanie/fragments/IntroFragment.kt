@@ -17,6 +17,7 @@ class IntroFragment : Fragment(), View.OnClickListener,
     ActivityCompat.OnRequestPermissionsResultCallback
 {
     private lateinit var formButton : Button
+    private lateinit var recyclerButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -41,6 +42,12 @@ class IntroFragment : Fragment(), View.OnClickListener,
         formButton = view.findViewById(R.id.formBtn)
         view.findViewById<View>(R.id.formBtn).setOnClickListener {
             val action = IntroFragmentDirections.actionIntroFragmentToFormFragment()
+            view.findNavController().navigate(action)
+        }
+
+        recyclerButton = view.findViewById(R.id.formBtn2)
+        view.findViewById<View>(R.id.formBtn2).setOnClickListener {
+            val action = IntroFragmentDirections.actionIntroFragmentToRecyclerFragment2()
             view.findNavController().navigate(action)
         }
     }

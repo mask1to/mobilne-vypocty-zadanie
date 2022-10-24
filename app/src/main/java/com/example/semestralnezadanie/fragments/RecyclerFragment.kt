@@ -1,32 +1,31 @@
 package com.example.semestralnezadanie.fragments
 
+import android.app.DownloadManager
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.Pub
-import com.example.semestralnezadanie.adapters.RecyclerAdapter
-import org.json.JSONArray
-import org.json.JSONException
-import java.io.BufferedReader
+import com.example.semestralnezadanie.Pubs
+import com.example.semestralnezadanie.R
+import com.example.semestralnezadanie.adapters.PubAdapter
+import com.google.gson.GsonBuilder
+import okhttp3.*
 import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
 
 
 class RecyclerFragment : Fragment()
 {
-    private var mRecyclerView: RecyclerView? = null
-    private var viewItems: ArrayList<Any> = ArrayList()
 
-    private lateinit var mAdapter: RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>
-    private var layoutManager: RecyclerView.LayoutManager? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var pubsList : ArrayList<Pub>
+    private lateinit var pubAdapter: PubAdapter
 
-    private val TAG = "MainActivity"
+    private val TAG = "RecyclerFragment"
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -41,20 +40,40 @@ class RecyclerFragment : Fragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
+        recyclerView = view.findViewById(R.id.my_recycler_view)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // solve onItemClick
+        fetchViaJson(recyclerView)
+
         super.onViewCreated(view, savedInstanceState)
-        mRecyclerView = view.findViewById(com.example.semestralnezadanie.R.id.my_recycler_view) as RecyclerView
-        mRecyclerView!!.setHasFixedSize(true)
-
-        layoutManager = LinearLayoutManager(this@RecyclerFragment.context)
-        mRecyclerView!!.layoutManager = layoutManager
-
-        mAdapter = RecyclerAdapter(this.context, viewItems)
-        mRecyclerView!!.adapter = mAdapter
-
-        //addItemsFromJSON()
     }
 
-    private fun addItemsFromJSON() {
+    private fun fetchViaJson(recyclerView: RecyclerView)
+    {
+        val url = "https://android.mpage.sk/data/pubs.json"
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object: Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                println("Failure")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val bodyResult = response.body!!.string()
+                val gson = GsonBuilder().create()
+
+                val pubs = gson.fromJson(bodyResult, Pubs::class.java)
+                activity?.runOnUiThread {
+                    recyclerView.adapter = PubAdapter(pubs)
+                }
+            }
+
+        })
+    }
+
+    /*private fun addItemsFromJSON() {
         try {
             val jsonDataString = readJSONDataFromFile()
             val jsonArray = JSONArray(jsonDataString)
@@ -91,5 +110,5 @@ class RecyclerFragment : Fragment()
             }
         }
         return String(builder)
-    }
+    }*/
 }
