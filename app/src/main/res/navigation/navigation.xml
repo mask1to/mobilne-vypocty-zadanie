@@ -3,20 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/introFragment">
-
-    <fragment
-        android:id="@+id/introFragment"
-        android:name="com.example.semestralnezadanie.fragments.IntroFragment"
-        android:label="IntroFragment" >
-
-        <action
-            android:id="@+id/action_introFragment_to_formFragment"
-            app:destination="@id/formFragment" />
-        <action
-            android:id="@+id/action_introFragment_to_recyclerFragment2"
-            app:destination="@id/recyclerFragment" />
-    </fragment>
+    app:startDestination="@id/recyclerFragment">
 
     <fragment
         android:id="@+id/fetchFragment"
@@ -27,13 +14,19 @@
             android:name="setName"
             app:argType="string" />
         <argument
-            android:name="setCompanyName"
+            android:name="setWebsite"
             app:argType="string" />
         <argument
             android:name="setLatitude"
             app:argType="string" />
         <argument
             android:name="setLongitude"
+            app:argType="string" />
+        <argument
+            android:name="setPhone"
+            app:argType="string" />
+        <argument
+            android:name="setOpeningHours"
             app:argType="string" />
 
     </fragment>
@@ -56,5 +49,9 @@
     <fragment
         android:id="@+id/recyclerFragment"
         android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
-        android:label="RecyclerFragment" />
+        android:label="RecyclerFragment" >
+        <action
+            android:id="@+id/action_recyclerFragment_to_fetchFragment"
+            app:destination="@id/fetchFragment" />
+    </fragment>
 </navigation>

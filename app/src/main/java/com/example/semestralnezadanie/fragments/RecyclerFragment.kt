@@ -1,16 +1,12 @@
 package com.example.semestralnezadanie.fragments
 
-import android.app.DownloadManager
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.semestralnezadanie.Pub
-import com.example.semestralnezadanie.Pubs
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.PubAdapter
 import com.google.gson.GsonBuilder
@@ -20,12 +16,12 @@ import java.io.IOException
 
 class RecyclerFragment : Fragment()
 {
-
     private lateinit var recyclerView: RecyclerView
-    private lateinit var pubsList : ArrayList<Pub>
-    private lateinit var pubAdapter: PubAdapter
 
-    private val TAG = "RecyclerFragment"
+    companion object{
+        var isSorted : Boolean = true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -43,72 +39,45 @@ class RecyclerFragment : Fragment()
         recyclerView = view.findViewById(R.id.my_recycler_view)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
-
-        // solve onItemClick
-        fetchViaJson(recyclerView)
+        recyclerView.adapter = PubAdapter(requireContext())
 
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun fetchViaJson(recyclerView: RecyclerView)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        val url = "https://android.mpage.sk/data/pubs.json"
-        val request = Request.Builder().url(url).build()
-        val client = OkHttpClient()
-        client.newCall(request).enqueue(object: Callback{
-            override fun onFailure(call: Call, e: IOException) {
-                println("Failure")
+        return when(item.itemId){
+            R.id.switch_sort -> {
+                isSorted = !isSorted
+                showIcon(item)
+
+                return true
             }
 
-            override fun onResponse(call: Call, response: Response) {
-                val bodyResult = response.body!!.string()
-                val gson = GsonBuilder().create()
-
-                val pubs = gson.fromJson(bodyResult, Pubs::class.java)
-                activity?.runOnUiThread {
-                    recyclerView.adapter = PubAdapter(pubs)
-                }
-            }
-
-        })
-    }
-
-    /*private fun addItemsFromJSON() {
-        try {
-            val jsonDataString = readJSONDataFromFile()
-            val jsonArray = JSONArray(jsonDataString)
-            for (i in 0 until jsonArray.length()) {
-                val itemObj = jsonArray.getJSONObject(i)
-                val name = itemObj.getString("name")
-                val date = itemObj.getString("date")
-                val pubs = Pub(name, date)
-                viewItems.add(pubs)
-            }
-        } catch (e: JSONException) {
-            Log.d(TAG, "addItemsFromJSON: ", e)
-        } catch (e: IOException) {
-            Log.d(TAG, "addItemsFromJSON: ", e)
+            else -> false
         }
     }
 
-    private fun readJSONDataFromFile(): String {
-        var inputStream: InputStream? = null
-        val builder = StringBuilder()
-        try {
-            var jsonString: String? = null
-            inputStream = resources.openRawResource(com.example.semestralnezadanie.R.raw.pubs)
-            val bufferedReader = BufferedReader(
-                InputStreamReader(inputStream, "UTF-8")
-            )
-            while (bufferedReader.readLine().also { jsonString = it } != null) {
-                builder.append(jsonString)
-            }
-        } finally {
-            if (inputStream != null)
-            {
-                inputStream.close()
-            }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
+    {
+        inflater.inflate(R.menu.sorting_menu, menu)
+
+        val btn = menu.findItem(R.id.switch_sort)
+        showIcon(btn)
+    }
+
+    private fun showIcon(item : MenuItem?)
+    {
+        if(item == null)
+        {
+            return
         }
-        return String(builder)
-    }*/
+
+        item.icon =
+            if(isSorted)
+                ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_24)
+            else
+                ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_by_alpha_24)
+    }
+
 }

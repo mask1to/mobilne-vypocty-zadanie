@@ -8,4 +8,7 @@
     <string name="companyLongitude">Zadajte zem.dlzku podniku</string>
     <string name="potvrdit">Potvrdiť</string>
     <string name="showOnMap">Ukáž na mape</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="zoradit">Zoradiť</string>
 </resources>

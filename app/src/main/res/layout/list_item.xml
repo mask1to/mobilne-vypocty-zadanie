@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
+    android:id="@+id/listCardView"
     android:padding="8dp"
     android:layout_margin="5dp"
     android:layout_height="wrap_content">
@@ -24,9 +25,9 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:text="Niečo"
+            android:text="Druh podniku"
             android:textSize="23sp"
-            android:id="@+id/anotherText"
+            android:id="@+id/amenityTxt"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

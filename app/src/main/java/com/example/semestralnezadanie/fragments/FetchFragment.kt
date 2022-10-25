@@ -19,9 +19,14 @@ import com.example.semestralnezadanie.R
 class FetchFragment: Fragment()
 {
     private lateinit var txtName : TextView
-    private lateinit var txtCompany : TextView
+    private lateinit var txtWebsite : TextView
     private lateinit var animationView: LottieAnimationView
     private lateinit var showOnMapBtn : Button
+
+    private lateinit var pubName : String
+    private lateinit var contactPhone : String
+    private lateinit var website : String
+    private lateinit var  openingHours : String
     private var newLatitude : Float = 0.0f
     private var newLongitude : Float = 0.0f
 
@@ -29,6 +34,15 @@ class FetchFragment: Fragment()
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
+
+        arguments?.let {
+            pubName = it.getString(DetailFragment.PUB).toString()
+            website = it.getString(DetailFragment.WEBSITE).toString()
+            newLatitude = it.getFloat(DetailFragment.LATITUDE)
+            newLongitude = it.getFloat(DetailFragment.LONGITUDE)
+            contactPhone = it.getString(DetailFragment.PHONE).toString()
+            openingHours = it.getString(DetailFragment.OPENING_HOURS).toString()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +57,15 @@ class FetchFragment: Fragment()
         val safeArgs : FetchFragmentArgs by navArgs()
 
         val theName = safeArgs.setName
-        val companyName = safeArgs.setCompanyName
+        val websiteName = safeArgs.setWebsite
         val companyLatitude = safeArgs.setLatitude
         val companyLongitude = safeArgs.setLongitude
 
         txtName = view.findViewById(R.id.fetchName)
-        txtCompany = view.findViewById(R.id.fetchCompanyName)
+        txtWebsite = view.findViewById(R.id.fetchWebsite)
 
         txtName.text = theName
-        txtCompany.text = companyName
+        txtWebsite.text = websiteName
 
         if (!companyLatitude.isEmpty())
         {
