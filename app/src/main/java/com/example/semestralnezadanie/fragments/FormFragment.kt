@@ -12,15 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.semestralnezadanie.R
 
-class FormFragment : Fragment(), View.OnClickListener,
+class FormFragment : Fragment(),
     ActivityCompat.OnRequestPermissionsResultCallback
 {
 
     private lateinit var nameInput : EditText
-    private lateinit var companyName : EditText
+    private lateinit var typeOfCompany : EditText
     private lateinit var companyLatitude : EditText
     private lateinit var companyLongitude : EditText
-    private lateinit var confirmationBtn : Button
+    private lateinit var websitePub : EditText
+    private lateinit var phoneContact : EditText
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -39,22 +40,23 @@ class FormFragment : Fragment(), View.OnClickListener,
         super.onViewCreated(view, savedInstanceState)
 
         nameInput = view.findViewById(R.id.nameTxt)
-        companyName = view.findViewById(R.id.companyName)
+        typeOfCompany = view.findViewById(R.id.pubType)
+        websitePub = view.findViewById(R.id.pubWebsite)
+        phoneContact = view.findViewById(R.id.pubPhone)
         companyLatitude = view.findViewById(R.id.companyLatitude)
         companyLongitude = view.findViewById(R.id.companyLongitude)
 
         view.findViewById<View>(R.id.confirmationBtn).setOnClickListener {
             val nameInputTxt = nameInput.text.toString()
-            val companyNameTxt = companyName.text.toString()
+            val typeOfCompanyTxt = typeOfCompany.text.toString()
+            val websiteTxt = websitePub.text.toString()
+            val phoneTxt = phoneContact.text.toString()
             val companyLatitudeFloat = companyLatitude.text.toString()
             val companyLongitudeFloat = companyLongitude.text.toString()
-            Log.d("Meno: ", nameInputTxt)
-            val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, companyNameTxt, companyLatitudeFloat, companyLongitudeFloat)
+
+            val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, typeOfCompanyTxt, companyLatitudeFloat, companyLongitudeFloat, websiteTxt, phoneTxt)
             view.findNavController().navigate(action)
         }
     }
 
-    override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
-    }
 }

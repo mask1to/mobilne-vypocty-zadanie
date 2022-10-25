@@ -19,11 +19,26 @@ import com.example.semestralnezadanie.R
 class FetchFragment: Fragment()
 {
     private lateinit var txtName : TextView
-    private lateinit var txtCompany : TextView
+    private lateinit var txtPubType : TextView
     private lateinit var animationView: LottieAnimationView
     private lateinit var showOnMapBtn : Button
+
+    private lateinit var pubName : String
+    private lateinit var contactPhone : String
+    private lateinit var website : String
+    private lateinit var  openingHours : String
     private var newLatitude : Float = 0.0f
     private var newLongitude : Float = 0.0f
+
+    companion object {
+        const val NAME = "name"
+        const val PUB = "pub_name"
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
+        const val PHONE = "phone"
+        const val WEBSITE = "website"
+        const val OPENING_HOURS = "opening_hours"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -43,15 +58,15 @@ class FetchFragment: Fragment()
         val safeArgs : FetchFragmentArgs by navArgs()
 
         val theName = safeArgs.setName
-        val companyName = safeArgs.setCompanyName
+        val typeOfPub = safeArgs.setTyp
         val companyLatitude = safeArgs.setLatitude
         val companyLongitude = safeArgs.setLongitude
 
         txtName = view.findViewById(R.id.fetchName)
-        txtCompany = view.findViewById(R.id.fetchCompanyName)
+        txtPubType = view.findViewById(R.id.fetchType)
 
         txtName.text = theName
-        txtCompany.text = companyName
+        txtPubType.text = typeOfPub
 
         if (!companyLatitude.isEmpty())
         {

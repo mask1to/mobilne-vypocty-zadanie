@@ -41,18 +41,30 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="introFragment">
+                  <entry key="infoFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-540" />
-                            <option name="y" value="8" />
+                            <option name="x" value="-202" />
+                            <option name="y" value="205" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="recyclerFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-511" />
+                            <option name="y" value="-30" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_introFragment_to_formFragment">
+                            <entry key="action_recyclerFragment_to_formFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

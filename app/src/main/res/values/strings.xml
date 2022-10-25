@@ -2,10 +2,15 @@
     <string name="app_name">SemestralneZadanie</string>
     <string name="prejst_formular">Prejsť na formulár</string>
     <string name="title">Vyplňte údaje</string>
-    <string name="name">Zadajte meno</string>
-    <string name="companyName">Zadajte názov podniku</string>
+    <string name="name">Zadajte meno podniku</string>
+    <string name="pubType">Zadajte typ podniku</string>
     <string name="companyLatitude">Zadajte zem.sirku podniku</string>
     <string name="companyLongitude">Zadajte zem.dlzku podniku</string>
     <string name="potvrdit">Potvrdiť</string>
     <string name="showOnMap">Ukáž na mape</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="zoradit">Zoradiť</string>
+    <string name="webPage">Zadajte webstránku podniku</string>
+    <string name="pubPhone">Zadajte tel.číslo podniku</string>
 </resources>

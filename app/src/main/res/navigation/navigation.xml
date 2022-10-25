@@ -3,17 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/introFragment">
-
-    <fragment
-        android:id="@+id/introFragment"
-        android:name="com.example.semestralnezadanie.fragments.IntroFragment"
-        android:label="IntroFragment" >
-
-        <action
-            android:id="@+id/action_introFragment_to_formFragment"
-            app:destination="@id/formFragment" />
-    </fragment>
+    app:startDestination="@id/recyclerFragment">
 
     <fragment
         android:id="@+id/fetchFragment"
@@ -24,13 +14,19 @@
             android:name="setName"
             app:argType="string" />
         <argument
-            android:name="setCompanyName"
+            android:name="setTyp"
             app:argType="string" />
         <argument
             android:name="setLatitude"
             app:argType="string" />
         <argument
             android:name="setLongitude"
+            app:argType="string" />
+        <argument
+            android:name="setPhone"
+            app:argType="string" />
+        <argument
+            android:name="setOpeningHours"
             app:argType="string" />
 
     </fragment>
@@ -49,5 +45,42 @@
 
 
 
+    </fragment>
+    <fragment
+        android:id="@+id/recyclerFragment"
+        android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
+        android:label="RecyclerFragment" >
+        <action
+            android:id="@+id/action_recyclerFragment_to_formFragment"
+            app:destination="@id/formFragment" />
+        <action
+            android:id="@+id/action_recyclerFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.semestralnezadanie.fragments.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <!--<argument
+            android:name="pubName"
+            app:argType="string" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="phone"
+            app:argType="string" />
+        <argument
+            android:name="website"
+            app:argType="string" />
+        <argument android:name="openingHrs" />-->
+        <argument android:name="pubClass"
+            app:argType="com.example.semestralnezadanie.entities.Pub"/>
+        <action
+            android:id="@+id/action_infoFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
     </fragment>
 </navigation>
