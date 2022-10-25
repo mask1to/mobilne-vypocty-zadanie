@@ -29,13 +29,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
-        android:id="@+id/companyName"
+        android:id="@+id/pubType"
         android:layout_width="232dp"
         android:layout_height="62dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="160dp"
         android:ems="10"
-        android:hint="@string/companyName"
+        android:hint="@string/pubType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/pubWebsite"
+        android:layout_width="232dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="224dp"
+        android:ems="10"
+        android:hint="@string/webPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/pubPhone"
+        android:layout_width="232dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="296dp"
+        android:ems="10"
+        android:hint="@string/pubPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +70,7 @@
         android:id="@+id/companyLatitude"
         android:layout_width="232dp"
         android:layout_height="62dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="376dp"
         android:ems="10"
         android:hint="@string/companyLatitude"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +82,7 @@
         android:id="@+id/companyLongitude"
         android:layout_width="232dp"
         android:layout_height="62dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="452dp"
         android:ems="10"
         android:hint="@string/companyLongitude"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +99,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.591"
+        app:layout_constraintVertical_bias="0.774"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

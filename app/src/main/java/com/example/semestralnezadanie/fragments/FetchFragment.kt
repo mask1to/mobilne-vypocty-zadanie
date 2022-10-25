@@ -19,7 +19,7 @@ import com.example.semestralnezadanie.R
 class FetchFragment: Fragment()
 {
     private lateinit var txtName : TextView
-    private lateinit var txtWebsite : TextView
+    private lateinit var txtPubType : TextView
     private lateinit var animationView: LottieAnimationView
     private lateinit var showOnMapBtn : Button
 
@@ -30,19 +30,20 @@ class FetchFragment: Fragment()
     private var newLatitude : Float = 0.0f
     private var newLongitude : Float = 0.0f
 
+    companion object {
+        const val NAME = "name"
+        const val PUB = "pub_name"
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
+        const val PHONE = "phone"
+        const val WEBSITE = "website"
+        const val OPENING_HOURS = "opening_hours"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
-
-        arguments?.let {
-            pubName = it.getString(DetailFragment.PUB).toString()
-            website = it.getString(DetailFragment.WEBSITE).toString()
-            newLatitude = it.getFloat(DetailFragment.LATITUDE)
-            newLongitude = it.getFloat(DetailFragment.LONGITUDE)
-            contactPhone = it.getString(DetailFragment.PHONE).toString()
-            openingHours = it.getString(DetailFragment.OPENING_HOURS).toString()
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,15 +58,15 @@ class FetchFragment: Fragment()
         val safeArgs : FetchFragmentArgs by navArgs()
 
         val theName = safeArgs.setName
-        val websiteName = safeArgs.setWebsite
+        val typeOfPub = safeArgs.setTyp
         val companyLatitude = safeArgs.setLatitude
         val companyLongitude = safeArgs.setLongitude
 
         txtName = view.findViewById(R.id.fetchName)
-        txtWebsite = view.findViewById(R.id.fetchWebsite)
+        txtPubType = view.findViewById(R.id.fetchType)
 
         txtName.text = theName
-        txtWebsite.text = websiteName
+        txtPubType.text = typeOfPub
 
         if (!companyLatitude.isEmpty())
         {

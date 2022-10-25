@@ -14,7 +14,7 @@
             android:name="setName"
             app:argType="string" />
         <argument
-            android:name="setWebsite"
+            android:name="setTyp"
             app:argType="string" />
         <argument
             android:name="setLatitude"
@@ -51,7 +51,36 @@
         android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
         android:label="RecyclerFragment" >
         <action
-            android:id="@+id/action_recyclerFragment_to_fetchFragment"
-            app:destination="@id/fetchFragment" />
+            android:id="@+id/action_recyclerFragment_to_formFragment"
+            app:destination="@id/formFragment" />
+        <action
+            android:id="@+id/action_recyclerFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.semestralnezadanie.fragments.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <!--<argument
+            android:name="pubName"
+            app:argType="string" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="phone"
+            app:argType="string" />
+        <argument
+            android:name="website"
+            app:argType="string" />
+        <argument android:name="openingHrs" />-->
+        <argument android:name="pubClass"
+            app:argType="com.example.semestralnezadanie.entities.Pub"/>
+        <action
+            android:id="@+id/action_infoFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
     </fragment>
 </navigation>

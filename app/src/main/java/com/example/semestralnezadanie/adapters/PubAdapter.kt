@@ -6,16 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.data.DataProvider
 import com.example.semestralnezadanie.entities.Pub
+import com.example.semestralnezadanie.entities.allPubs
+import com.example.semestralnezadanie.entities.loadAllData
 import com.example.semestralnezadanie.fragments.RecyclerFragmentDirections
+import com.example.semestralnezadanie.fragments.RecyclerFragment.Companion.isSorted
 
 class PubAdapter(private val context : Context): RecyclerView.Adapter<PubAdapter.PubViewHolder>()
 {
-    private val dataProvider = DataProvider(context)
-    private val pubsList : List<Pub> = dataProvider.allPubs
+    private val pubsList : List<Pub> =
+        if(allPubs.size == 0)
+        {
+            loadAllData(context).sortedBy{it.name.uppercase()}
+        }
+        else if(!isSorted)
+        {
+            allPubs
+        }
+        else
+        {
+            allPubs.sortedBy{it.name.uppercase()}
+        }
 
     class PubViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView)
     {
@@ -37,10 +52,10 @@ class PubAdapter(private val context : Context): RecyclerView.Adapter<PubAdapter
         holder.amenityTextView.text = pub.amenity
         //maybe listener add
         holder.cardView.setOnClickListener {
-            /*val action = RecyclerFragmentDirections.actionRecyclerFragmentToFetchFragment(
-
-
-            )*/
+            val action = RecyclerFragmentDirections.actionRecyclerFragmentToInfoFragment(
+                pub
+            )
+            holder.itemView.findNavController().navigate(action)
         }
     }
 

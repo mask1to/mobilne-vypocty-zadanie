@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.PubAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
@@ -17,6 +19,8 @@ import java.io.IOException
 class RecyclerFragment : Fragment()
 {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var floatingButton : FloatingActionButton
+    private lateinit var sortingFloating : FloatingActionButton
 
     companion object{
         var isSorted : Boolean = true
@@ -40,6 +44,19 @@ class RecyclerFragment : Fragment()
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = PubAdapter(requireContext())
+
+        floatingButton = view.findViewById(R.id.btnFloat)
+        sortingFloating = view.findViewById(R.id.btnSort)
+
+        sortingFloating.setOnClickListener {
+            isSorted = !isSorted
+            recyclerView.adapter = PubAdapter(requireContext())
+        }
+
+        floatingButton.setOnClickListener {
+            val action = RecyclerFragmentDirections.actionRecyclerFragmentToFormFragment()
+            findNavController().navigate(action)
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }

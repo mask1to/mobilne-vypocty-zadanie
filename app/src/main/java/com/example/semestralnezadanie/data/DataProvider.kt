@@ -9,34 +9,6 @@ import java.io.IOException
 
 class DataProvider(private val context : Context)
 {
-    val allPubs : List<Pub> = loadAllData().sortedBy{it.name.uppercase()}
-
-    private fun loadAllData() : List<Pub>
-    {
-        val allPubs = mutableListOf<Pub>()
-
-        val jsonObj = JSONObject(fetchJsonFromRaw(context)!!)
-        val elementsGetter = jsonObj.getJSONArray("elements")
-
-        for (index in 0 until elementsGetter.length())
-        {
-            val pub = elementsGetter.getJSONObject(index)
-            val tags = pub.getJSONObject("tags")
-
-            allPubs.add(
-                Pub(
-                    name = extractValue(tags, "name"),
-                    amenity = extractValue(tags, "amenity"),
-                    latitude = pub.getDouble("lat").toFloat(),
-                    longitude = pub.getDouble("lon").toFloat(),
-                    opening_hours = extractValue(tags, "opening_hours"),
-                    website = extractValue(tags, "website"),
-                    contactPhone = extractValue(tags, "phone")
-                )
-            )
-        }
-        return allPubs
-    }
 
     private fun fetchJsonFromRaw(context: Context): String? {
         val jsonString: String
