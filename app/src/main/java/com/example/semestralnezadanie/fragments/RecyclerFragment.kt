@@ -3,7 +3,6 @@ package com.example.semestralnezadanie.fragments
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -30,13 +29,6 @@ class RecyclerFragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    //disabled onBackPressed
-                }
-            }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         parentFragment?.activity?.actionBar?.hide()
     }
 

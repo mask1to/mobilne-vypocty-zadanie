@@ -13,4 +13,15 @@
     <string name="zoradit">Zoradiť</string>
     <string name="webPage">Zadajte webstránku podniku</string>
     <string name="pubPhone">Zadajte tel.číslo podniku</string>
+    <string name="repeatPassword">Zopakujte heslo</string>
+    <string name="password">Heslo</string>
+    <string name="emailField">E-mail</string>
+    <string name="personSurname">Priezvisko</string>
+    <string name="personName">Meno</string>
+    <string name="loginToApp">Prihlásiť sa</string>
+    <string name="registerToApp">Registrovať sa</string>
+    <string name="existingAcc">Už máte účet?</string>
+    <string name="registrationTitle">Registrácia</string>
+    <string name="noAccount">Ešte nemáte účet?</string>
+    <string name="loginTitle">Prihlásenie</string>
 </resources>
