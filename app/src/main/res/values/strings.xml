@@ -8,8 +8,6 @@
     <string name="companyLongitude">Zadajte zem.dlzku podniku</string>
     <string name="potvrdit">Potvrdiť</string>
     <string name="showOnMap">Ukáž na mape</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="zoradit">Zoradiť</string>
     <string name="webPage">Zadajte webstránku podniku</string>
     <string name="pubPhone">Zadajte tel.číslo podniku</string>
@@ -24,4 +22,5 @@
     <string name="registrationTitle">Registrácia</string>
     <string name="noAccount">Ešte nemáte účet?</string>
     <string name="loginTitle">Prihlásenie</string>
+    <string name="nickName">Používateľské meno</string>
 </resources>

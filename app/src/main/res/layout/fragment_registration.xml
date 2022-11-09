@@ -16,35 +16,16 @@
         android:text="@string/registrationTitle"
         android:textColor="@color/white"
         android:textSize="26sp"
-        app:layout_constraintBottom_toTopOf="@+id/firstNameField"
+        app:layout_constraintBottom_toTopOf="@+id/usernameFieldRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/firstNameField"
+        android:id="@+id/usernameFieldRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/personName"
-        android:padding="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25"
-        app:startIconDrawable="@drawable/ic_baseline_person_24">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/surnameField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/personSurname"
+        android:hint="@string/nickName"
         android:padding="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
