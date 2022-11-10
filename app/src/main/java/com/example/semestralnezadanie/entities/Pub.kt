@@ -1,9 +1,9 @@
 package com.example.semestralnezadanie.entities
 
 import android.content.Context
-import android.os.Parcel
 import android.os.Parcelable
 import com.example.semestralnezadanie.R
+import com.example.semestralnezadanie.database.DatabaseUsers
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
@@ -18,7 +18,14 @@ data class Pub(
     val opening_hours : String,
     val website : String,
     val contactPhone : String
-):Parcelable
+):Parcelable{
+
+    fun asDatabaseModel():DatabaseUsers{
+        return DatabaseUsers(
+
+        )
+    }
+}
 
 var allPubs : MutableList<Pub> = ArrayList()
 
