@@ -4,23 +4,24 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.semestralnezadanie.database.users.UsersDao
-import com.example.semestralnezadanie.database.users.UsersDatabase
+import com.example.semestralnezadanie.database.pubs.PubsDao
+import com.example.semestralnezadanie.database.pubs.PubsDatabase
 
-@Database(entities = [UsersDatabase::class], version = 2, exportSchema = false)
-abstract class DatabaseUsers : RoomDatabase()
+
+@Database(entities = [PubsDatabase::class], version = 2, exportSchema = false)
+abstract class DatabasePubs : RoomDatabase()
 {
-    abstract fun usersDao(): UsersDao
+    abstract fun pubsDao(): PubsDao
 
     companion object {
         @Volatile
-        private var INSTANCE: DatabaseUsers? = null
-        fun getDatabase(context: Context): DatabaseUsers {
+        private var INSTANCE: DatabasePubs? = null
+        fun getDatabase(context: Context): DatabasePubs {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    DatabaseUsers::class.java,
-                    "users_db"
+                    DatabasePubs::class.java,
+                    "pubs_db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
