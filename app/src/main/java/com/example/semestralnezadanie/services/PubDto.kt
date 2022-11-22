@@ -1,6 +1,6 @@
 package com.example.semestralnezadanie.services
 
-import com.example.semestralnezadanie.database.pubs.PubsDatabase
+import com.example.semestralnezadanie.database.pubs.PubsModel
 import com.example.semestralnezadanie.entities.Pub
 import com.squareup.moshi.Json
 
@@ -44,10 +44,10 @@ fun PubContainerDto.asDomainModel(): List<Pub>
     }
 }
 
-fun PubContainerDto.asDatabaseModel(): List<PubsDatabase>
+fun PubContainerDto.asDatabaseModel(): List<PubsModel>
 {
     return pubList.map {
-        PubsDatabase(
+        PubsModel(
             id = it.id,
             name = it.tags.name,
             type = it.tags.type,

@@ -1,15 +1,6 @@
 package com.example.semestralnezadanie.entities
 
-import android.content.Context
-import android.os.Parcelable
-import com.example.semestralnezadanie.R
-import com.example.semestralnezadanie.database.DatabasePubs
-import com.example.semestralnezadanie.database.DatabaseUsers
-import com.example.semestralnezadanie.database.pubs.PubsDatabase
-import kotlinx.parcelize.Parcelize
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
+import com.example.semestralnezadanie.database.pubs.PubsModel
 
 data class Pub(
     val id : Long = 0,
@@ -21,8 +12,8 @@ data class Pub(
     val website : String?,
     val contactPhone : String?
 ){
-    fun asDatabaseModel():PubsDatabase{
-        return PubsDatabase(
+    fun asDatabaseModel():PubsModel{
+        return PubsModel(
             id = id,
             name = name,
             type = amenity,

@@ -62,21 +62,7 @@
         android:name="com.example.semestralnezadanie.fragments.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
-        <!--<argument
-            android:name="pubName"
-            app:argType="string" />
-        <argument
-            android:name="latitude"
-            app:argType="float" />
-        <argument android:name="longitude"
-            app:argType="float" />
-        <argument
-            android:name="phone"
-            app:argType="string" />
-        <argument
-            android:name="website"
-            app:argType="string" />
-        <argument android:name="openingHrs" />-->
+
         <argument android:name="pubClass"
             app:argType="com.example.semestralnezadanie.entities.Pub"/>
         <action

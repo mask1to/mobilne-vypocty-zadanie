@@ -17,7 +17,6 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.data.DataProvider
 import com.example.semestralnezadanie.entities.Pub
-import com.example.semestralnezadanie.entities.allPubs
 
 
 class InfoFragment : Fragment()
@@ -70,7 +69,7 @@ class InfoFragment : Fragment()
 
         val safeArgs : InfoFragmentArgs by navArgs()
         txtName.text = safeArgs.pubClass.name
-        txtOpeningHrs.text = safeArgs.pubClass.opening_hours
+        //txtOpeningHrs.text = safeArgs.pubClass.opening_hours
 
         mapButton.setOnClickListener {
             val uri =
@@ -80,7 +79,7 @@ class InfoFragment : Fragment()
         }
 
         deleteButton.setOnClickListener {
-            allPubs.remove(safeArgs.pubClass)
+            //allPubs.remove(safeArgs.pubClass)
             val action = InfoFragmentDirections.actionInfoFragmentToRecyclerFragment()
             findNavController().navigate(action)
         }
