@@ -11,20 +11,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.lottie.LottieAnimationView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.data.DataProvider
 import com.example.semestralnezadanie.entities.Pub
-import com.example.semestralnezadanie.entities.allPubs
 
 
 class InfoFragment : Fragment()
 {
+    private lateinit var name : String
+    private lateinit var pubName : String
     private lateinit var phoneContact : String
     private lateinit var website : String
+    private lateinit var openingHrs : String
     private var latitude : Float? = null
     private var longitude : Float? = null
 
@@ -36,9 +37,17 @@ class InfoFragment : Fragment()
     private lateinit var deleteButton : Button
 
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            pubName = it.getString(FetchFragment.PUB).toString()
+            website = it.getString(FetchFragment.WEBSITE).toString()
+            latitude = it.getFloat(FetchFragment.LATITUDE)
+            longitude = it.getFloat(FetchFragment.LONGITUDE)
+            phoneContact = it.getString(FetchFragment.PHONE).toString()
+            openingHrs = it.getString(FetchFragment.OPENING_HOURS).toString()
+        }
     }
 
     override fun onCreateView(
@@ -60,56 +69,33 @@ class InfoFragment : Fragment()
 
         val safeArgs : InfoFragmentArgs by navArgs()
         txtName.text = safeArgs.pubClass.name
-        txtOpeningHrs.text = safeArgs.pubClass.opening_hours
-        website = safeArgs.pubClass.website
-        phoneContact = safeArgs.pubClass.contactPhone
+        //txtOpeningHrs.text = safeArgs.pubClass.opening_hours
 
-        if(latitude.toString().isEmpty() || longitude.toString().isEmpty())
-        {
-            Toast.makeText(context, "No latitude or longitude", Toast.LENGTH_SHORT)
-        }
-        else
-        {
-            mapButton.setOnClickListener {
-                val uri =
-                    "http://maps.google.com/maps?q=loc:$latitude,$longitude"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                startActivity(intent)
-            }
+        mapButton.setOnClickListener {
+            val uri =
+                "http://maps.google.com/maps?q=loc:$latitude,$longitude"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            startActivity(intent)
         }
 
         deleteButton.setOnClickListener {
-            allPubs.remove(safeArgs.pubClass)
+            //allPubs.remove(safeArgs.pubClass)
             val action = InfoFragmentDirections.actionInfoFragmentToRecyclerFragment()
             findNavController().navigate(action)
         }
 
-        if(website.isEmpty())
-        {
-            Toast.makeText(context, "No website", Toast.LENGTH_SHORT)
-        }
-        else
-        {
-            webButton.setOnClickListener {
-                Log.d("web", website.toString())
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
-                startActivity(intent)
-            }
+        webButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
+            startActivity(intent)
         }
 
-        if(phoneContact.isEmpty())
-        {
-            Toast.makeText(context, "No phone contact", Toast.LENGTH_SHORT)
+        callButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneContact"))
+            startActivity(intent)
         }
-        else
-        {
-            callButton.setOnClickListener {
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneContact"))
-                startActivity(intent)
-            }
-        }
-
     }
+
+
 
     @SuppressLint("Range")
     private fun setupAnimation(animationView: LottieAnimationView)
@@ -121,4 +107,7 @@ class InfoFragment : Fragment()
             animationView.playAnimation()
         }
     }
+
+    //showOnMap TODO
+
 }

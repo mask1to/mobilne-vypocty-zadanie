@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.data.DataProvider
 import com.example.semestralnezadanie.entities.Pub
-import com.example.semestralnezadanie.entities.allPubs
-import com.example.semestralnezadanie.entities.loadAllData
 import com.example.semestralnezadanie.fragments.RecyclerFragmentDirections
 import com.example.semestralnezadanie.fragments.RecyclerFragment.Companion.isSorted
 

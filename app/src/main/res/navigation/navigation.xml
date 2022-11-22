@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/recyclerFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/fetchFragment"
@@ -62,25 +62,31 @@
         android:name="com.example.semestralnezadanie.fragments.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
-        <!--<argument
-            android:name="pubName"
-            app:argType="string" />
-        <argument
-            android:name="latitude"
-            app:argType="float" />
-        <argument android:name="longitude"
-            app:argType="float" />
-        <argument
-            android:name="phone"
-            app:argType="string" />
-        <argument
-            android:name="website"
-            app:argType="string" />
-        <argument android:name="openingHrs" />-->
+
         <argument android:name="pubClass"
             app:argType="com.example.semestralnezadanie.entities.Pub"/>
         <action
             android:id="@+id/action_infoFragment_to_recyclerFragment"
             app:destination="@id/recyclerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.semestralnezadanie.fragments.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.semestralnezadanie.fragments.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
 </navigation>
