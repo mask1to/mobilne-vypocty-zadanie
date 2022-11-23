@@ -15,8 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.lottie.LottieAnimationView
 import com.example.semestralnezadanie.R
-import com.example.semestralnezadanie.data.DataProvider
-import com.example.semestralnezadanie.entities.Pub
 
 
 class InfoFragment : Fragment()

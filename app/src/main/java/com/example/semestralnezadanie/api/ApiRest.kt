@@ -7,6 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
+/*
 interface ApiRest
 {
     companion object{
@@ -57,3 +58,4 @@ interface ApiRest
         @Body user : UserLoginRequest
     ) : Response<UserGeneralResponse>
 }
+*/

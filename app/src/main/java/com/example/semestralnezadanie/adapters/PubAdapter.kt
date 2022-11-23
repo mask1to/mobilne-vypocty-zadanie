@@ -1,5 +1,6 @@
 package com.example.semestralnezadanie.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,26 +10,18 @@ import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
-import com.example.semestralnezadanie.data.DataProvider
 import com.example.semestralnezadanie.entities.Pub
 import com.example.semestralnezadanie.fragments.RecyclerFragmentDirections
 import com.example.semestralnezadanie.fragments.RecyclerFragment.Companion.isSorted
 
 class PubAdapter(private val context : Context): RecyclerView.Adapter<PubAdapter.PubViewHolder>()
 {
-    private val pubsList : List<Pub> =
-        if(allPubs.size == 0)
-        {
-            loadAllData(context).sortedBy{it.name.uppercase()}
-        }
-        else if(!isSorted)
-        {
-            allPubs
-        }
-        else
-        {
-            allPubs.sortedBy{it.name.uppercase()}
-        }
+    var data : List<Pub> = emptyList()
+    @SuppressLint("NotifyDataSetChanged")
+    set(value){
+        field = value
+        notifyDataSetChanged()
+    }
 
     class PubViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView)
     {
@@ -45,7 +38,7 @@ class PubAdapter(private val context : Context): RecyclerView.Adapter<PubAdapter
 
     override fun onBindViewHolder(holder: PubViewHolder, position: Int)
     {
-        val pub = pubsList[position]
+        val pub = data[position]
         holder.pubNameTextView.text = pub.name
         holder.amenityTextView.text = pub.amenity
         //maybe listener add
@@ -59,6 +52,6 @@ class PubAdapter(private val context : Context): RecyclerView.Adapter<PubAdapter
 
     override fun getItemCount(): Int
     {
-        return pubsList.size
+        return data.size
     }
 }

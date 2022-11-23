@@ -7,6 +7,7 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
+/*
 class TokenAuthenticator(val context: Context) : Authenticator
 {
     override fun authenticate(route: Route?, response: Response): Request?
@@ -31,4 +32,4 @@ class TokenAuthenticator(val context: Context) : Authenticator
         }
     }
 
-}
+}*/

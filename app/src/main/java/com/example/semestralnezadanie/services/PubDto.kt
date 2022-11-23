@@ -27,35 +27,3 @@ data class PubDtoTags(
     @Json(name = "website")
     val webPage: String?,
 )
-
-fun PubContainerDto.asDomainModel(): List<Pub>
-{
-    return pubList.map{
-        Pub(
-            id = it.id,
-            name = it.tags.name,
-            amenity = it.tags.type,
-            owner = it.tags.ownerName,
-            longitude = it.longitude,
-            latitude = it.latitude,
-            contactPhone = it.tags.phoneNumber,
-            website = it.tags.webPage
-        )
-    }
-}
-
-fun PubContainerDto.asDatabaseModel(): List<PubsModel>
-{
-    return pubList.map {
-        PubsModel(
-            id = it.id,
-            name = it.tags.name,
-            type = it.tags.type,
-            owner = it.tags.ownerName,
-            latitude = it.latitude,
-            longitude = it.longitude,
-            phoneContact = it.tags.phoneNumber,
-            website = it.tags.webPage
-        )
-    }
-}

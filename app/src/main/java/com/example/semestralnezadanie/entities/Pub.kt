@@ -10,7 +10,8 @@ data class Pub(
     val latitude : String,
     val longitude : String,
     val website : String?,
-    val contactPhone : String?
+    val contactPhone : String?,
+    val users : Int
 ){
     fun asDatabaseModel():PubsModel{
         return PubsModel(
@@ -21,7 +22,8 @@ data class Pub(
             latitude = latitude,
             longitude = longitude,
             website = website,
-            phoneContact = contactPhone
+            phoneContact = contactPhone,
+            users = users
         )
     }
 }

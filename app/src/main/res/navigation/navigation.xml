@@ -35,17 +35,13 @@
         android:id="@+id/formFragment"
         android:name="com.example.semestralnezadanie.fragments.FormFragment"
         android:label="FormFragment" >
-
         <action
             android:id="@+id/action_formFragment_to_fetchFragment"
             app:destination="@id/fetchFragment">
 
         </action>
-
-
-
-
     </fragment>
+
     <fragment
         android:id="@+id/recyclerFragment"
         android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
@@ -63,12 +59,11 @@
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
 
-        <argument android:name="pubClass"
-            app:argType="com.example.semestralnezadanie.entities.Pub"/>
         <action
             android:id="@+id/action_infoFragment_to_recyclerFragment"
             app:destination="@id/recyclerFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.semestralnezadanie.fragments.RegistrationFragment"
