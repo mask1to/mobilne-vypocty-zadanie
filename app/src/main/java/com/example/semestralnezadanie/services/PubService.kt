@@ -28,7 +28,7 @@ interface PubRestApi{
     @Headers(
         "Content-Type: application/json",
         "Access-Control-Request-Headers: *",
-        "api-key: KHUu1Fo8042UwzczKz9nNeuVOsg2T4ClIfhndD2Su0G0LHHCBf0LnUF05L231J0M")
+        "api-key: c95332ee022df8c953ce470261efc695ecf3e784")
     @POST("find")
     suspend fun getPubs(@Body pubService : PubService = PubService()): PubContainerDto
 }
