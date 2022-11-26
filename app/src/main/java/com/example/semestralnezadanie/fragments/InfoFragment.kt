@@ -65,8 +65,8 @@ class InfoFragment : Fragment()
         callButton = view.findViewById(R.id.callBtn)
         deleteButton = view.findViewById(R.id.deleteBtn)
 
-        val safeArgs : InfoFragmentArgs by navArgs()
-        txtName.text = safeArgs.pubClass.name
+        //val safeArgs : InfoFragmentArgs by navArgs()
+        //txtName.text = safeArgs.pubClass.name
         //txtOpeningHrs.text = safeArgs.pubClass.opening_hours
 
         mapButton.setOnClickListener {

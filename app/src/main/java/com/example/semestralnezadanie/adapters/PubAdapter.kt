@@ -43,9 +43,7 @@ class PubAdapter(private val context : Context): RecyclerView.Adapter<PubAdapter
         holder.amenityTextView.text = pub.amenity
         //maybe listener add
         holder.cardView.setOnClickListener {
-            val action = RecyclerFragmentDirections.actionRecyclerFragmentToInfoFragment(
-                pub
-            )
+            val action = RecyclerFragmentDirections.actionRecyclerFragmentToInfoFragment()
             holder.itemView.findNavController().navigate(action)
         }
     }
