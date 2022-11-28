@@ -14,6 +14,8 @@ data class Pub(
     val users : Int
 )
 
+data class PubDetail(val key : String, val value : String){}
+
 data class CurrentLocation(
     val latitude: Double,
     val longitude: Double
