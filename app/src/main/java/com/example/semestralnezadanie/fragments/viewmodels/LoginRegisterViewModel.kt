@@ -1,9 +1,6 @@
 package com.example.semestralnezadanie.fragments.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.semestralnezadanie.api.UserGeneralResponse
 import com.example.semestralnezadanie.database.users.UserDataRepository
 import com.example.semestralnezadanie.fragments.viewmodels.wrappers.LiveDataEvent
@@ -39,4 +36,5 @@ class LoginRegisterViewModel(private val userDataRepository: UserDataRepository)
         }
         loadData.postValue(false)
     }
+
 }

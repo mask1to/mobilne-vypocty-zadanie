@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.semestralnezadanie.R
+import com.example.semestralnezadanie.databinding.FragmentRegistrationBinding
+import com.example.semestralnezadanie.fragments.viewmodels.LoginRegisterViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 
 class RegistrationFragment : Fragment()
 {
 
+    private lateinit var binding : FragmentRegistrationBinding
+    private lateinit var loginRegisterViewModel : LoginRegisterViewModel
     private lateinit var usernameInput : TextInputLayout
     private lateinit var emailInput : TextInputLayout
     private lateinit var firstPasswordInput : TextInputLayout
@@ -24,12 +29,15 @@ class RegistrationFragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+
+        loginRegisterViewModel = ViewModelProvider(this, )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View?
     {
-        return inflater.inflate(R.layout.fragment_registration, container, false)
+        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
