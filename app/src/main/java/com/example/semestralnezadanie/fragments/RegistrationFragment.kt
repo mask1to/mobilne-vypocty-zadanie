@@ -1,16 +1,20 @@
 package com.example.semestralnezadanie.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.semestralnezadanie.R
+import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.FragmentRegistrationBinding
 import com.example.semestralnezadanie.fragments.viewmodels.LoginRegisterViewModel
+import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -23,14 +27,12 @@ class RegistrationFragment : Fragment()
     private lateinit var emailInput : TextInputLayout
     private lateinit var firstPasswordInput : TextInputLayout
     private lateinit var secondPasswordInput : TextInputLayout
-    private lateinit var registerBtn : Button
-    private lateinit var loginBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
 
-        loginRegisterViewModel = ViewModelProvider(this, )
+        loginRegisterViewModel = ViewModelProvider(this, ViewModelHelper.provideUserViewModelFactory(requireContext()))[LoginRegisterViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,23 +50,48 @@ class RegistrationFragment : Fragment()
         emailInput = view.findViewById(R.id.emailRegisterField)
         firstPasswordInput = view.findViewById(R.id.passwordRegisterField)
         secondPasswordInput = view.findViewById(R.id.passwordRegisterField2)
-        registerBtn = view.findViewById(R.id.registerBtn2)
-        loginBtn = view.findViewById(R.id.loginBtnOnRegister)
 
-        loginBtn.setOnClickListener {
+        val preferences = Preferences.getInstance().getUserItem(requireContext())
+
+        binding.apply {
+
+        }
+
+        /**
+         * Buttons
+         */
+
+        binding.loginBtnOnRegister.setOnClickListener {
             val action = RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
             view.findNavController().navigate(action)
         }
 
-        registerBtn.setOnClickListener {
+        binding.registerBtn2.setOnClickListener {
+            checkAllFields()
             /*TODO:
                 1. Overenie ci su policka vyplnene
                 2. Overenie zhody hesiel
                 3. Odoslanie requestu na registraciu
                 4. Status kod 200 - automaticky prihlasit pouzivatela, ak iny kod - vypisat chybu
             * */
-            checkAllFields()
         }
+
+        /**
+         * Other
+         */
+        if(!(preferences?.userId ?: "").isBlank())
+        {
+           //Navigation.findNavController(view).navigate()
+            return
+        }
+        else
+        {
+            Log.e("Error", "UserId is blank")
+            return
+        }
+
+
+
     }
 
     private fun checkAllFields() : Boolean
