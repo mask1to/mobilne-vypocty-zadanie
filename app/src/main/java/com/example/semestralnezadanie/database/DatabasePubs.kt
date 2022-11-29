@@ -10,7 +10,7 @@ import com.example.semestralnezadanie.database.pubs.PubsModel
 @Database(entities = [PubsModel::class], version = 1, exportSchema = false)
 abstract class DatabasePubs : RoomDatabase()
 {
-    abstract fun pubsDao(): PubsDao
+    abstract fun pubsDao(): DatabasePubsDao
 
     companion object {
         @Volatile

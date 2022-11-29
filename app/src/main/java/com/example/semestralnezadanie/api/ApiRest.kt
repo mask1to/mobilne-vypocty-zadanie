@@ -1,11 +1,15 @@
 package com.example.semestralnezadanie.api
 
 import android.content.Context
+import com.example.semestralnezadanie.api.authenticator.TokenAuthenticator
+import com.example.semestralnezadanie.api.interceptor.TheInterceptor
+import retrofit2.Call
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+
 
 interface ApiRest
 {
@@ -14,8 +18,8 @@ interface ApiRest
 
         fun buildAndCreate(context: Context) : ApiRest{
             val client = OkHttpClient.Builder()
-                .addInterceptor()
-                .authenticator()
+                .addInterceptor(TheInterceptor(context))
+                .authenticator(TokenAuthenticator(context))
                 .build()
 
             val retrofitBuilder = Retrofit.Builder()
@@ -56,4 +60,8 @@ interface ApiRest
     suspend fun userLogin(
         @Body user : UserLoginRequest
     ) : Response<UserGeneralResponse>
+
+    @POST("user/refresh.php")
+    fun refreshUser(@Body user : UserRefresh) : Call<UserGeneralResponse>
 }
+

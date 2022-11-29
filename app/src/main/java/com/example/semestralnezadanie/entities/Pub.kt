@@ -10,18 +10,13 @@ data class Pub(
     val latitude : String,
     val longitude : String,
     val website : String?,
-    val contactPhone : String?
-){
-    fun asDatabaseModel():PubsModel{
-        return PubsModel(
-            id = id,
-            name = name,
-            type = amenity,
-            owner = owner,
-            latitude = latitude,
-            longitude = longitude,
-            website = website,
-            phoneContact = contactPhone
-        )
-    }
-}
+    val contactPhone : String?,
+    val users : Int
+)
+
+data class PubDetail(val key : String, val value : String){}
+
+data class CurrentLocation(
+    val latitude: Double,
+    val longitude: Double
+)
