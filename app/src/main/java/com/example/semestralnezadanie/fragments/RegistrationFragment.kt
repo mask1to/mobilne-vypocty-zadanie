@@ -21,24 +21,26 @@ import com.google.android.material.textfield.TextInputLayout
 class RegistrationFragment : Fragment()
 {
 
-    private lateinit var binding : FragmentRegistrationBinding
-    private lateinit var loginRegisterViewModel : LoginRegisterViewModel
+    private var _binding : FragmentRegistrationBinding? = null
+    private val binding get() = _binding!!
     private lateinit var usernameInput : TextInputLayout
     private lateinit var emailInput : TextInputLayout
     private lateinit var firstPasswordInput : TextInputLayout
     private lateinit var secondPasswordInput : TextInputLayout
 
+    private val loginRegisterViewModel : LoginRegisterViewModel by lazy {
+        ViewModelProvider(this, ViewModelHelper.provideUserViewModelFactory(requireContext()))[LoginRegisterViewModel::class.java]
+    }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-
-        loginRegisterViewModel = ViewModelProvider(this, ViewModelHelper.provideUserViewModelFactory(requireContext()))[LoginRegisterViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View?
     {
-        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+        _binding = FragmentRegistrationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,7 +56,8 @@ class RegistrationFragment : Fragment()
         val preferences = Preferences.getInstance().getUserItem(requireContext())
 
         binding.apply {
-
+            lifecycleOwner = viewLifecycleOwner
+            loginregistermodel = loginRegisterViewModel
         }
 
         /**

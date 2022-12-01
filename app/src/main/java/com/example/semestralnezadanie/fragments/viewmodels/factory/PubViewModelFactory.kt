@@ -8,7 +8,7 @@ import com.example.semestralnezadanie.fragments.viewmodels.PubsViewModel
 
 
 // https://www.youtube.com/watch?v=CAnkC29X_Ds&ab_channel=TechProjects
-class PubViewModelFactory(private val pubsDataRepository: PubsDataRepository) : ViewModelProvider.Factory
+class PubViewModelFactory(private val pubsDataRepository: PubsDataRepository) : ViewModelProvider.AndroidViewModelFactory()
 {
     override fun <T : ViewModel> create(modelClass: Class<T>): T
     {

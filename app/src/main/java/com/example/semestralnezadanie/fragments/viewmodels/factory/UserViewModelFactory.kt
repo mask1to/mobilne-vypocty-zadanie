@@ -12,8 +12,8 @@ class UserViewModelFactory(private val userDataRepository: UserDataRepository) :
     {
         if(modelClass.isAssignableFrom(LoginRegisterViewModel::class.java))
         {
-             @Suppress("UNCHECKED_CAST")
-             return LoginRegisterViewModel(userDataRepository) as T
+            @Suppress("UNCHECKED_CAST")
+            return LoginRegisterViewModel(userDataRepository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel entity class")

@@ -11,7 +11,7 @@ import java.io.IOException
 import java.lang.Exception
 import kotlin.coroutines.coroutineContext
 
-class UserDataRepository private constructor(private val apiService : ApiRest)
+class UserDataRepository (private val apiService : ApiRest)
 {
 
     companion object{

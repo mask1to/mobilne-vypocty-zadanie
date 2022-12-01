@@ -7,22 +7,22 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "pubs")
 class PubsModel(
     @PrimaryKey(autoGenerate = true)
-    val id : String,
-    //@ColumnInfo(name = "name")
+    val id : Int,
+    @ColumnInfo(name = "name")
     val name : String?,
-    //@ColumnInfo(name = "type")
+    @ColumnInfo(name = "type")
     val type : String,
     //@ColumnInfo(name = "firm_owner")
     //val owner : String?,
-    //@ColumnInfo(name = "latitude")
+    @ColumnInfo(name = "latitude")
     val latitude : String,
-    //@ColumnInfo(name = "longitude")
+    @ColumnInfo(name = "longitude")
     val longitude : String,
     //@ColumnInfo(name = "website")
     //val website : String?,
     //@ColumnInfo(name = "phone_contact")
     //val phoneContact : String?,
-    //@ColumnInfo(name = "users_count")
+    @ColumnInfo(name = "users_count")
     val users : Int
 )
 {
