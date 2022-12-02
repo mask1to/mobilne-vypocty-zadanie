@@ -24,7 +24,6 @@ class RegistrationFragment : Fragment()
     private var _binding : FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
     private lateinit var usernameInput : TextInputLayout
-    private lateinit var emailInput : TextInputLayout
     private lateinit var firstPasswordInput : TextInputLayout
     private lateinit var secondPasswordInput : TextInputLayout
 
@@ -38,7 +37,7 @@ class RegistrationFragment : Fragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View?
+        savedInstanceState: Bundle?): View
     {
         _binding = FragmentRegistrationBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,17 +47,23 @@ class RegistrationFragment : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
 
-        usernameInput = view.findViewById(R.id.usernameFieldRegister)
-        emailInput = view.findViewById(R.id.emailRegisterField)
-        firstPasswordInput = view.findViewById(R.id.passwordRegisterField)
-        secondPasswordInput = view.findViewById(R.id.passwordRegisterField2)
+        usernameInput = binding.usernameFieldRegister
+        firstPasswordInput = binding.passwordRegisterField
+        secondPasswordInput = binding.passwordRegisterField2
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
+        if((preferences?.userId ?: "").isNotBlank())
+        {
+            val action = RegistrationFragmentDirections.actionRegistrationFragmentToRecyclerFragment()
+            Navigation.findNavController(view).navigate(action)
+            return
+        }
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             loginregistermodel = loginRegisterViewModel
         }
+
 
         /**
          * Buttons
@@ -66,11 +71,13 @@ class RegistrationFragment : Fragment()
 
         binding.loginBtnOnRegister.setOnClickListener {
             val action = RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
-            view.findNavController().navigate(action)
+            Navigation.findNavController(view).navigate(action)
         }
 
         binding.registerBtn2.setOnClickListener {
             checkAllFields()
+            val action = RegistrationFragmentDirections.actionRegistrationFragmentToRecyclerFragment()
+            Navigation.findNavController(view).navigate(action)
             /*TODO:
                 1. Overenie ci su policka vyplnene
                 2. Overenie zhody hesiel
@@ -79,21 +86,15 @@ class RegistrationFragment : Fragment()
             * */
         }
 
-        /**
-         * Other
-         */
-        if(!(preferences?.userId ?: "").isBlank())
-        {
-           //Navigation.findNavController(view).navigate()
-            return
-        }
-        else
-        {
-            Log.e("Error", "UserId is blank")
-            return
-        }
 
-
+        loginRegisterViewModel.userResponse.observe(viewLifecycleOwner)
+        {
+            it?.let {
+                Preferences.getInstance().applyUserItem(requireContext(), it)
+                val action = RegistrationFragmentDirections.actionRegistrationFragmentToRecyclerFragment()
+                Navigation.findNavController(requireView()).navigate(action)
+            }
+        }
 
     }
 
@@ -105,12 +106,6 @@ class RegistrationFragment : Fragment()
             return false
         }
 
-        if(emailInput.editText?.text.toString().isEmpty())
-        {
-            emailInput.editText?.error = "E-mail musí byť vyplnený"
-            return false
-        }
-
         if(firstPasswordInput.editText?.text.toString().isEmpty() || secondPasswordInput.editText?.text.toString().isEmpty())
         {
             firstPasswordInput.editText?.error = "Heslo musí byť zadané"
@@ -119,14 +114,16 @@ class RegistrationFragment : Fragment()
         else if(firstPasswordInput.editText?.text.toString().length < 8 || secondPasswordInput.editText?.text.toString().length < 8)
         {
             firstPasswordInput.editText?.error = "Heslo musí mať aspoň 8 znakov"
+            return false
         }
 
-        if(!firstPasswordInput.editText?.text.toString().equals(secondPasswordInput.editText?.text.toString()))
+        if(firstPasswordInput.editText?.text.toString() != secondPasswordInput.editText?.text.toString())
         {
             firstPasswordInput.editText?.error = "Heslá sa nezhodujú"
             return false
         }
 
+        loginRegisterViewModel.signUp(usernameInput.editText?.text.toString(), firstPasswordInput.editText?.text.toString())
         return true
     }
 }

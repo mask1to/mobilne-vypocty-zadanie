@@ -9,8 +9,10 @@ import android.widget.Button
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.semestralnezadanie.R
+import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.FragmentLoginBinding
 import com.example.semestralnezadanie.fragments.viewmodels.LoginRegisterViewModel
 import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
@@ -46,6 +48,13 @@ class LoginFragment : Fragment()
         username = binding.usernameField
         password = binding.passwordField
 
+        val preferences = Preferences.getInstance().getUserItem(requireContext())
+        if((preferences?.userId ?: "").isNotBlank())
+        {
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_recyclerFragment)
+            return
+        }
+
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             loginregistermodel = loginRegisterViewModel
@@ -59,15 +68,22 @@ class LoginFragment : Fragment()
                  3. status kod 200 - automaticky prihlasi pouzivatela
                  4. status kod iny - vypise chybu
              */
-            if(checkLoginFields())
-            {
-                loginRegisterViewModel.singIn(username.editText?.text.toString(), password.editText?.text.toString())
-            }
+            checkLoginFields()
+            val action = LoginFragmentDirections.actionLoginFragmentToRecyclerFragment()
+            Navigation.findNavController(view).navigate(action)
         }
 
         binding.registerBtn.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
             it.findNavController().navigate(action)
+        }
+
+        loginRegisterViewModel.userResponse.observe(viewLifecycleOwner)
+        {
+            it?.let {
+                Preferences.getInstance().applyUserItem(requireContext(), it)
+                Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_recyclerFragment)
+            }
         }
     }
 
@@ -85,6 +101,7 @@ class LoginFragment : Fragment()
             return false
         }
 
+        loginRegisterViewModel.singIn(username.editText?.text.toString(), password.editText?.text.toString())
         return true
     }
 }

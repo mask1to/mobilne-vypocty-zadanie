@@ -23,7 +23,7 @@ class TheInterceptor(val context: Context) : Interceptor
                 )
             }
 
-            Preferences.getInstance().getUserItem(context)?.userId.let {
+            Preferences.getInstance().getUserItem(context)?.userId?.let {
                 request.addHeader("x-user", it)
             }
             request.addHeader("x-apikey", "c95332ee022df8c953ce470261efc695ecf3e784")

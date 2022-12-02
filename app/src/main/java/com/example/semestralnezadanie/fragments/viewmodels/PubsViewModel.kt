@@ -15,7 +15,7 @@ class PubsViewModel(private val pubsDataRepository: PubsDataRepository) : ViewMo
 
     val allPubs : LiveData<List<PubsModel>?> = liveData {
         loadData.postValue(true)
-        pubsDataRepository.getPubList()
+        pubsDataRepository.getPubList{ _message.postValue(LiveDataEvent(it)) }
 
         loadData.postValue(false)
         emitSource(pubsDataRepository.storePubs())
@@ -30,7 +30,7 @@ class PubsViewModel(private val pubsDataRepository: PubsDataRepository) : ViewMo
     {
         viewModelScope.launch{
             loadData.postValue(true)
-            pubsDataRepository.getPubList()
+            pubsDataRepository.getPubList{ _message.postValue(LiveDataEvent(it)) }
             loadData.postValue(false)
         }
     }

@@ -24,7 +24,11 @@ class LoginRegisterViewModel(private val userDataRepository: UserDataRepository)
     {
         viewModelScope.launch {
             loadData.postValue(true)
-            userDataRepository.loginUser(userName, userPassword)
+            userDataRepository.loginUser(
+                userName,
+                userPassword,
+                { _message.postValue(LiveDataEvent(it)) },
+                { userResponse.postValue(it) })
         }
         loadData.postValue(false)
     }
@@ -33,7 +37,11 @@ class LoginRegisterViewModel(private val userDataRepository: UserDataRepository)
     {
         viewModelScope.launch {
             loadData.postValue(true)
-            userDataRepository.registerUser(userName, userPassword)
+            userDataRepository.registerUser(
+                userName,
+                userPassword,
+                { _message.postValue(LiveDataEvent(it)) },
+                { userResponse.postValue(it) })
         }
         loadData.postValue(false)
     }

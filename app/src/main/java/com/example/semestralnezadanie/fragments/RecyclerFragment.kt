@@ -5,11 +5,19 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.PubAdapter
+import com.example.semestralnezadanie.database.preferences.Preferences
+import com.example.semestralnezadanie.databinding.FragmentRegistrationBinding
+import com.example.semestralnezadanie.databinding.RecyclerFragmentBinding
+import com.example.semestralnezadanie.fragments.viewmodels.LoginRegisterViewModel
+import com.example.semestralnezadanie.fragments.viewmodels.PubsViewModel
+import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.GsonBuilder
 import okhttp3.*
@@ -18,6 +26,8 @@ import java.io.IOException
 
 class RecyclerFragment : Fragment()
 {
+    private var _binding : RecyclerFragmentBinding? = null
+    private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatingButton : FloatingActionButton
     private lateinit var sortingFloating : FloatingActionButton
@@ -25,6 +35,11 @@ class RecyclerFragment : Fragment()
     companion object{
         var isSorted : Boolean = true
     }
+
+    private val pubViewModel : PubsViewModel by lazy {
+        ViewModelProvider(this, ViewModelHelper.providePubViewModelFactory(requireContext()))[PubsViewModel::class.java]
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -35,18 +50,20 @@ class RecyclerFragment : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-        return inflater.inflate(com.example.semestralnezadanie.R.layout.recycler_fragment, container, false)
+        _binding = RecyclerFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
-        recyclerView = view.findViewById(R.id.my_recycler_view)
+        //recyclerView = view.findViewById(R.id.my_recycler_view)
+        recyclerView = binding.myRecyclerView
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = PubAdapter(requireContext())
 
-        floatingButton = view.findViewById(R.id.btnFloat)
-        sortingFloating = view.findViewById(R.id.btnSort)
+        floatingButton = binding.btnFloat
+        sortingFloating = binding.btnFloat
 
         sortingFloating.setOnClickListener {
             isSorted = !isSorted
@@ -54,14 +71,21 @@ class RecyclerFragment : Fragment()
         }
 
         floatingButton.setOnClickListener {
-            val action = RecyclerFragmentDirections.actionRecyclerFragmentToFormFragment()
-            findNavController().navigate(action)
+            /*val action = RecyclerFragmentDirections.actionRecyclerFragmentToFormFragment()
+            findNavController().navigate(action)*/
+        }
+
+        pubViewModel.allPubs.observe(viewLifecycleOwner)
+        {
+            it?.apply {
+                (recyclerView.adapter!! as PubAdapter).data = it
+            }
         }
 
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
         return when(item.itemId){
             R.id.switch_sort -> {
@@ -95,6 +119,6 @@ class RecyclerFragment : Fragment()
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_24)
             else
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_by_alpha_24)
-    }
+    }*/
 
 }

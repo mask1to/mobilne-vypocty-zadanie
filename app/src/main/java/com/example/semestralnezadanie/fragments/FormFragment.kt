@@ -54,8 +54,8 @@ class FormFragment : Fragment(),
             val companyLatitudeFloat = companyLatitude.text.toString()
             val companyLongitudeFloat = companyLongitude.text.toString()
 
-            val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, typeOfCompanyTxt, companyLatitudeFloat, companyLongitudeFloat, websiteTxt, phoneTxt)
-            view.findNavController().navigate(action)
+            /*val action = FormFragmentDirections.actionFormFragmentToFetchFragment(nameInputTxt, typeOfCompanyTxt, companyLatitudeFloat, companyLongitudeFloat, websiteTxt, phoneTxt)
+            view.findNavController().navigate(action)*/
         }
     }
 
