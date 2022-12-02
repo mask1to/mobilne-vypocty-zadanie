@@ -47,9 +47,10 @@ class PubAdapter(val pubContext : Context): RecyclerView.Adapter<PubAdapter.PubV
         {
             itemView.findViewById<TextView>(R.id.nameText).text = item.name
             itemView.findViewById<TextView>(R.id.amenityTxt).text = item.type
+            itemView.findViewById<TextView>(R.id.pubUsersTxt).text = item.users.toString()
             //itemView.setOnClickListener { pubContext.onClickCustom(item) }
             itemView.findViewById<CardView>(R.id.listCardView).setOnClickListener {
-                val action = RecyclerFragmentDirections.actionRecyclerFragmentToInfoFragment()
+                val action = RecyclerFragmentDirections.actionRecyclerFragmentToInfoFragment(item.id.toString())
                 Navigation.findNavController(itemView).navigate(action)
             }
         }

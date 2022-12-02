@@ -61,16 +61,7 @@ class LoginFragment : Fragment()
         }
 
         binding.loginBtn.setOnClickListener{
-            /*
-                TODO:
-                 1. overit ci su policka vyplnene
-                 2. odoslat request na prihlasenie (zapamatat si access a refresh token)
-                 3. status kod 200 - automaticky prihlasi pouzivatela
-                 4. status kod iny - vypise chybu
-             */
             checkLoginFields()
-            val action = LoginFragmentDirections.actionLoginFragmentToRecyclerFragment()
-            Navigation.findNavController(view).navigate(action)
         }
 
         binding.registerBtn.setOnClickListener {

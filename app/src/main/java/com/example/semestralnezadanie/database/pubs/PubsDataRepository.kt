@@ -36,7 +36,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                 response.body()?.let { pubResponse: List<PubGeneralResponse> ->
                     var pubs = pubResponse.map {
                         PubsModel(
-                            it.pubId.toInt(), it.pubName, it.pubAmenity,
+                            it.pubId.toLong(), it.pubName, it.pubAmenity,
                             it.latitude.toString(), it.longitude.toString(), it.users
                         )
                     }

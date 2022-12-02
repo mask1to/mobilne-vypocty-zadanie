@@ -76,16 +76,7 @@ class RegistrationFragment : Fragment()
 
         binding.registerBtn2.setOnClickListener {
             checkAllFields()
-            val action = RegistrationFragmentDirections.actionRegistrationFragmentToRecyclerFragment()
-            Navigation.findNavController(view).navigate(action)
-            /*TODO:
-                1. Overenie ci su policka vyplnene
-                2. Overenie zhody hesiel
-                3. Odoslanie requestu na registraciu
-                4. Status kod 200 - automaticky prihlasit pouzivatela, ak iny kod - vypisat chybu
-            * */
         }
-
 
         loginRegisterViewModel.userResponse.observe(viewLifecycleOwner)
         {

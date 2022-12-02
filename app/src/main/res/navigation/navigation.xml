@@ -50,9 +50,12 @@
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
 
+        <argument
+            android:name="pubId"
+            app:argType="string" />
         <action
-            android:id="@+id/action_infoFragment_to_recyclerFragment"
-            app:destination="@id/recyclerFragment" />
+            android:id="@+id/action_infoFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment

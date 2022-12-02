@@ -1,8 +1,11 @@
 package com.example.semestralnezadanie.fragments
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -48,7 +51,7 @@ class RecyclerFragment : Fragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
+                              savedInstanceState: Bundle?): View
     {
         _binding = RecyclerFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -64,6 +67,11 @@ class RecyclerFragment : Fragment()
 
         floatingButton = binding.btnFloat
         sortingFloating = binding.btnFloat
+
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            pubmodel = pubViewModel
+        }
 
         sortingFloating.setOnClickListener {
             isSorted = !isSorted
@@ -85,7 +93,7 @@ class RecyclerFragment : Fragment()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
         return when(item.itemId){
             R.id.switch_sort -> {
@@ -119,6 +127,13 @@ class RecyclerFragment : Fragment()
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_24)
             else
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_by_alpha_24)
-    }*/
+    }
+
+    private fun checkPermissions() : Boolean{
+        return ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+    }
 
 }

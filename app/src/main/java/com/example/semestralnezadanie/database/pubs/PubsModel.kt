@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "pubs")
 class PubsModel(
     @PrimaryKey(autoGenerate = true)
-    val id : Int,
+    val id : Long,
     @ColumnInfo(name = "name")
     val name : String?,
     @ColumnInfo(name = "type")
