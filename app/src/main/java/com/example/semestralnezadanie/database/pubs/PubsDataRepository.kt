@@ -26,7 +26,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
 
     }
 
-    suspend fun getPubList()
+    suspend fun getPubList(errorOut: (error : String) -> Unit)
     {
         try{
             val response = apiService.getPubList()
@@ -36,28 +36,44 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                 response.body()?.let { pubResponse: List<PubGeneralResponse> ->
                     var pubs = pubResponse.map {
                         PubsModel(
-                            it.pubId, it.pubName, it.pubAmenity,
+                            it.pubId.toInt(), it.pubName, it.pubAmenity,
                             it.latitude.toString(), it.longitude.toString(), it.users
                         )
                     }
                     localCache.deletePubs()
                     localCache.insertPubs(pubs)
-                }
+                } ?: errorOut("Načítanie podnikov zlyhalo")
+            }
+            else if(response.code() == 400)
+            {
+                errorOut("Nesprávny request")
+            }
+            else if(response.code() == 401)
+            {
+                errorOut("Neautorizovaný request")
+            }
+            else if(response.code() == 404)
+            {
+                errorOut("Endpoint neexistuje")
+            }
+            else if(response.code() == 500)
+            {
+                errorOut("Chyba v databáze")
             }
             else
             {
-                Log.e("Failed read", "Failed to read pubs")
+                errorOut("Načítanie podnikov zlyhalo")
             }
         }
         catch (e0 : Exception)
         {
             e0.printStackTrace()
-            Log.e("Network error", "Check your network please")
+            errorOut("Načítanie podnikov zlyhalo, skontrolujte si internetové pripojenie")
         }
         catch (e1 : Exception)
         {
             e1.printStackTrace()
-            Log.e("Loading error", "Failed to load all pubs")
+            errorOut("Načítanie všetkých podnikov zlyhalo")
         }
     }
 
@@ -69,7 +85,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    suspend fun getPubDetail(pubId : String) : NearbyPub
+    suspend fun getPubDetail(pubId : String, errorOut: (error : String) -> Unit) : NearbyPub
     {
         lateinit var nearbyPub : NearbyPub
 
@@ -91,29 +107,45 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                             pubs.tags
                         )
                     }
-                }
+                } ?: errorOut("Načítavanie podnikov zlyhalo")
+            }
+            else if(response.code() == 400)
+            {
+                errorOut("Nesprávny request")
+            }
+            else if(response.code() == 401)
+            {
+                errorOut("Neautorizovaný request")
+            }
+            else if(response.code() == 404)
+            {
+                errorOut("Endpoint neexistuje")
+            }
+            else if(response.code() == 500)
+            {
+                errorOut("Chyba v databáze")
             }
             else
             {
-                Log.e("Error", "Error reading pubs")
+                errorOut("Načítanie podnikov zlyhalo")
             }
         }
         catch (e0 : IOException)
         {
             e0.printStackTrace()
-            Log.e("Network error", "Please check your network error")
+            errorOut("Načítanie podnikov zlyhalo, skontrolujte si internetové pripojenie")
         }
         catch (e1 : Exception)
         {
             e1.printStackTrace()
-            Log.e("Loading failed", "Failed loading pubs")
+            errorOut("Načítanie všetkých podnikov zlyhalo")
         }
 
         return nearbyPub
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    suspend fun getPubsNearby(latitude : Double, longitude : Double) : List<NearbyPub>
+    suspend fun getPubsNearby(latitude : Double, longitude : Double, errorOut: (error : String) -> Unit) : List<NearbyPub>
     {
         var nearbyPubs = listOf<NearbyPub>()
 
@@ -131,22 +163,38 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                         }
                     }
                     nearbyPubs = nearbyPubs.filter { it.pubName.isNotBlank() }.sortedBy { it.distance }
-                }
+                }?: errorOut("Načítavanie podnikov zlyhalo")
+            }
+            else if(response.code() == 400)
+            {
+                errorOut("Nesprávny request")
+            }
+            else if(response.code() == 401)
+            {
+                errorOut("Neautorizovaný request")
+            }
+            else if(response.code() == 404)
+            {
+                errorOut("Endpoint neexistuje")
+            }
+            else if(response.code() == 500)
+            {
+                errorOut("Chyba v databáze")
             }
             else
             {
-                Log.e("Failed loading", "Failed to load pubs")
+                errorOut("Načítanie podnikov zlyhalo")
             }
         }
         catch (e0 : IOException)
         {
             e0.printStackTrace()
-            Log.e("Failed loading", "Please check your network")
+            errorOut("Načítanie podnikov zlyhalo, skontrolujte si internetové pripojenie")
         }
         catch (e1 : Exception)
         {
             e1.printStackTrace()
-            Log.e("Failed loading", "unexprected error")
+            errorOut("Načítanie všetkých podnikov zlyhalo")
         }
 
         return nearbyPubs

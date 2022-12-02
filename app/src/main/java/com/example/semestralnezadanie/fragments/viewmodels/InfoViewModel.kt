@@ -37,7 +37,7 @@ class InfoViewModel(private val pubsDataRepository: PubsDataRepository) : ViewMo
         {
             viewModelScope.launch {
                 loadData.postValue(true)
-                pub.postValue(pubsDataRepository.getPubDetail(pid))
+                pub.postValue(pubsDataRepository.getPubDetail(pid){ _message.postValue(LiveDataEvent(it)) })
                 loadData.postValue(false)
             }
         }

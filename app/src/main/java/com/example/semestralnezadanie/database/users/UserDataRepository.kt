@@ -1,17 +1,14 @@
 package com.example.semestralnezadanie.database.users
 
 import android.util.Log
-import android.widget.Toast
 import com.example.semestralnezadanie.api.ApiRest
+import com.example.semestralnezadanie.api.UserGeneralResponse
 import com.example.semestralnezadanie.api.UserLoginRequest
 import com.example.semestralnezadanie.api.UserRequest
-import com.example.semestralnezadanie.database.LocalCache
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.lang.Exception
-import kotlin.coroutines.coroutineContext
 
-class UserDataRepository private constructor(private val apiService : ApiRest)
+class UserDataRepository (private val apiService : ApiRest)
 {
 
     companion object{
@@ -24,7 +21,7 @@ class UserDataRepository private constructor(private val apiService : ApiRest)
             }
     }
 
-    suspend fun registerUser(userName : String, userPassword : String)
+    suspend fun registerUser(userName : String, userPassword : String, errorOut : (error : String) -> Unit, status : (isSuccess : UserGeneralResponse?) -> Unit)
     {
         try{
             var response = apiService.createUser(UserRequest(userName = userName, userPassword = userPassword))
@@ -33,33 +30,52 @@ class UserDataRepository private constructor(private val apiService : ApiRest)
                 response.body()?.let { userResponse ->
                     if(userResponse.userId == "-1")
                     {
-                        Log.e("Error name","Používateľské meno už existuje")
+                        status(null)
+                        errorOut("Používateľské meno už existuje")
                     }
                     else
                     {
-                        Log.d("Not error", "Success")
+                        status(userResponse)
                     }
                 }
             }
-            else
+            else if(response.code() == 400)
             {
-                Log.e("Error registration","Registrácia zlyhala")
+                status(null)
+                errorOut("Registrácia zlyhala, nesprávny request")
+            }
+            else if(response.code() == 401)
+            {
+                status(null)
+                errorOut("Registrácia zlyhala, neautorizovaný request")
+            }
+            else if(response.code() == 404)
+            {
+                status(null)
+                errorOut("Registrácia zlyhala, endpoint neexistuje")
+            }
+            else if(response.code() == 500)
+            {
+                status(null)
+                errorOut("Registrácia zlyhala, chyba v databáze")
             }
         }
         catch (e0: IOException)
         {
             e0.printStackTrace()
-            Log.d("Network error", "Check internet connection")
+            status(null)
+            errorOut("Registrácia zlyhala, skontrolujte internetové pripojenie")
         }
         catch (e1 : Exception)
         {
             e1.printStackTrace()
-            Log.d("Error registration", "Registrácia zlyhala")
+            status(null)
+            errorOut("Registrácia zlyhala")
         }
 
     }
 
-    suspend fun loginUser(userName: String, userPassword: String)
+    suspend fun loginUser(userName: String, userPassword: String, errorOut : (error : String) -> Unit, status : (isSuccess : UserGeneralResponse?) -> Unit)
     {
         try {
             var response = apiService.userLogin(UserLoginRequest(userName = userName, userPassword = userPassword))
@@ -69,28 +85,47 @@ class UserDataRepository private constructor(private val apiService : ApiRest)
                 response.body()?.let { userResponse ->
                     if(userResponse.userId == "-1")
                     {
-                        Log.e("Bad login", "Wrong username or password")
+                        status(null)
+                        errorOut("Prihlásenie zlyhalo, nesprávne meno alebo heslo")
                     }
                     else
                     {
-                        Log.d("Correct login", "Success")
+                        status(userResponse)
                     }
                 }
             }
-            else
+            else if(response.code() == 400)
             {
-                Log.e("Login failed", "Login failed, please try again later")
+                status(null)
+                errorOut("Prihlásenie zlyhalo, nesprávny request")
+            }
+            else if(response.code() == 401)
+            {
+                status(null)
+                errorOut("Prihlásenie zlyhalo, neautorizovaný request")
+            }
+            else if(response.code() == 404)
+            {
+                status(null)
+                errorOut("Prihlásenie zlyhalo, endpoint neexistuje")
+            }
+            else if(response.code() == 500)
+            {
+                status(null)
+                errorOut("Prihlásenie zlyhalo, chyba v databáze")
             }
         }
         catch (e0 : Exception)
         {
             e0.printStackTrace()
-            Log.d("Network error", "Check internet connection")
+            errorOut("Prihlásenie zlyhalo, skontrolujte si internetové pripojenie")
+            status(null)
         }
         catch (e1 : Exception)
         {
             e1.printStackTrace()
-            Log.d("Bad login", "Failed to login, unexpected error")
+            errorOut("Prihlásenie zlyhalo, neočakávaná chyba")
+            status(null)
         }
     }
 

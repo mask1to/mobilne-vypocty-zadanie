@@ -13,23 +13,6 @@ import retrofit2.http.*
 
 interface ApiRest
 {
-    companion object{
-        const val BASE_URL = "https://zadanie.mpage.sk"
-
-        fun buildAndCreate(context: Context) : ApiRest{
-            val client = OkHttpClient.Builder()
-                .addInterceptor(TheInterceptor(context))
-                .authenticator(TokenAuthenticator(context))
-                .build()
-
-            val retrofitBuilder = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-            return retrofitBuilder.create(ApiRest::class.java)
-        }
-    }
 
     @GET("https://overpass-api.de/api/interpreter?")
     suspend fun nearbyPub(
@@ -63,5 +46,23 @@ interface ApiRest
 
     @POST("user/refresh.php")
     fun refreshUser(@Body user : UserRefresh) : Call<UserGeneralResponse>
+
+    companion object{
+        const val BASE_URL = "https://zadanie.mpage.sk/"
+
+        fun buildAndCreate(context: Context) : ApiRest{
+            val client = OkHttpClient.Builder()
+                .addInterceptor(TheInterceptor(context))
+                .authenticator(TokenAuthenticator(context))
+                .build()
+
+            val retrofitBuilder = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            return retrofitBuilder.create(ApiRest::class.java)
+        }
+    }
 }
 

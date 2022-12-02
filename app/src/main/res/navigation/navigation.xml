@@ -34,21 +34,12 @@
     <fragment
         android:id="@+id/formFragment"
         android:name="com.example.semestralnezadanie.fragments.FormFragment"
-        android:label="FormFragment" >
-        <action
-            android:id="@+id/action_formFragment_to_fetchFragment"
-            app:destination="@id/fetchFragment">
-
-        </action>
-    </fragment>
+        android:label="FormFragment" />
 
     <fragment
         android:id="@+id/recyclerFragment"
         android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
         android:label="RecyclerFragment" >
-        <action
-            android:id="@+id/action_recyclerFragment_to_formFragment"
-            app:destination="@id/formFragment" />
         <action
             android:id="@+id/action_recyclerFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
@@ -72,6 +63,9 @@
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registrationFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

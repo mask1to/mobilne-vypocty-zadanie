@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 
 class LoginRegisterViewModel(private val userDataRepository: UserDataRepository) : ViewModel()
 {
+
     private val _message = MutableLiveData<LiveDataEvent<String>>()
     val message : LiveData<LiveDataEvent<String>> get() = _message
 
@@ -23,7 +24,11 @@ class LoginRegisterViewModel(private val userDataRepository: UserDataRepository)
     {
         viewModelScope.launch {
             loadData.postValue(true)
-            userDataRepository.loginUser(userName, userPassword)
+            userDataRepository.loginUser(
+                userName,
+                userPassword,
+                { _message.postValue(LiveDataEvent(it)) },
+                { userResponse.postValue(it) })
         }
         loadData.postValue(false)
     }
@@ -32,9 +37,18 @@ class LoginRegisterViewModel(private val userDataRepository: UserDataRepository)
     {
         viewModelScope.launch {
             loadData.postValue(true)
-            userDataRepository.registerUser(userName, userPassword)
+            userDataRepository.registerUser(
+                userName,
+                userPassword,
+                { _message.postValue(LiveDataEvent(it)) },
+                { userResponse.postValue(it) })
         }
         loadData.postValue(false)
+    }
+
+    fun displayMessage(message : String)
+    {
+        _message.postValue(LiveDataEvent(message))
     }
 
 }
