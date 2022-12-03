@@ -32,4 +32,7 @@ interface DatabasePubsDao
 
     @Query("SELECT * FROM friends WHERE custom_id = :id")
     fun getFriends(id : Long) : LiveData<List<FriendsModel>?>
+
+    @Query("SELECT * FROM pubs WHERE users_count >= 1 ORDER BY users_count ASC")
+    fun sortPubsByUsersCount() : LiveData<List<PubsModel>?>
 }

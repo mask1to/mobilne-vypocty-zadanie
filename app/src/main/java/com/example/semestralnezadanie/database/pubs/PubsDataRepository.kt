@@ -1,13 +1,12 @@
 package com.example.semestralnezadanie.database.pubs
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.example.semestralnezadanie.api.ApiRest
 import com.example.semestralnezadanie.api.PubGeneralResponse
 import com.example.semestralnezadanie.database.LocalCache
-import com.example.semestralnezadanie.entities.CurrentLocation
+import com.example.semestralnezadanie.entities.MyCurrentLocation
 import com.example.semestralnezadanie.entities.NearbyPub
 import java.io.IOException
 
@@ -164,7 +163,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
 
                     nearbyPubs = pubResponse.elements.map {
                         NearbyPub(it.id, it.tags.getOrDefault("name", ""), it.tags.getOrDefault("amenity", ""), it.latitude, it.longitude, it.tags).apply {
-                            distance = getDistanceToPubNearby(CurrentLocation(latitude, longitude))
+                            distance = getDistanceToPubNearby(MyCurrentLocation(latitude, longitude))
                         }
                     }
                     nearbyPubs = nearbyPubs.filter { it.pubName.isNotBlank() }.sortedBy { it.distance }

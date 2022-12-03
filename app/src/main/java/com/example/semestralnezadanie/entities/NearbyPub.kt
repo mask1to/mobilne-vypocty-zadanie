@@ -47,14 +47,14 @@ class NearbyPub(
     }
 
 
-    fun getDistanceToPubNearby(currentLocation: CurrentLocation) : Double
+    fun getDistanceToPubNearby(myCurrentLocation: MyCurrentLocation) : Double
     {
         val location = Location("").apply {
             latitude = latitude
             longitude = longitude
         }.distanceTo(Location("").apply {
-            latitude = currentLocation.latitude
-            longitude = currentLocation.longitude
+            latitude = myCurrentLocation.latitude
+            longitude = myCurrentLocation.longitude
         }).toDouble()
 
         return location

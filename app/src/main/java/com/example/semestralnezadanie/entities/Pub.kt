@@ -1,7 +1,5 @@
 package com.example.semestralnezadanie.entities
 
-import com.example.semestralnezadanie.database.pubs.PubsModel
-
 data class Pub(
     val id : Long = 0,
     val name : String?,
@@ -14,9 +12,6 @@ data class Pub(
     val users : Int
 )
 
-data class PubDetail(val key : String, val value : String){}
+data class PubDetail(val key : String, val value : String)
 
-data class CurrentLocation(
-    val latitude: Double,
-    val longitude: Double
-)
+data class MyCurrentLocation(val latitude: Double, val longitude: Double)

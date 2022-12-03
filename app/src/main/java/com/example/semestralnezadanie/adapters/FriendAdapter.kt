@@ -47,11 +47,7 @@ class FriendAdapter(val friendContext : Context): RecyclerView.Adapter<FriendAda
             /*itemView.findViewById<TextView>(R.id.amenityTxt).text = item.type
             itemView.findViewById<TextView>(R.id.pubUsersTxt).text = item.users.toString()*/
             itemView.findViewById<CardView>(R.id.friendCardView).setOnClickListener {
-                if(item.pubId.isNullOrEmpty())
-                {
-
-                }
-                else
+                if(!item.pubId.isNullOrEmpty())
                 {
                     val action = FriendsFragmentDirections.actionFriendsFragmentToInfoFragment(item.pubId.toString())
                     Navigation.findNavController(itemView).navigate(action)
