@@ -8,26 +8,52 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="fetchFragment">
+                  <entry key="addFriendFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="93" />
-                            <option name="y" value="2" />
+                            <option name="x" value="29" />
+                            <option name="y" value="-730" />
                           </Point>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="formFragment">
+                  <entry key="friendRemoveFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-138" />
-                            <option name="y" value="-328" />
+                            <option name="x" value="39" />
+                            <option name="y" value="-365" />
                           </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="friendsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-216" />
+                            <option name="y" value="-579" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_friendsFragment_to_addFriendFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_friendsFragment_to_friendRemoveFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -37,8 +63,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-328" />
-                            <option name="y" value="195" />
+                            <option name="x" value="-434" />
+                            <option name="y" value="-202" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -58,8 +84,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-913" />
-                            <option name="y" value="-434" />
+                            <option name="x" value="-985" />
+                            <option name="y" value="-672" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -84,13 +110,23 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-451" />
-                            <option name="y" value="-325" />
+                            <option name="x" value="-590" />
+                            <option name="y" value="-574" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_recyclerFragment_to_friendsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_recyclerFragment_to_infoFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_recyclerFragment_to_loginFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -105,8 +141,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-1265" />
-                            <option name="y" value="-78" />
+                            <option name="x" value="-1101" />
+                            <option name="y" value="-178" />
                           </Point>
                         </option>
                         <option name="myPositions">

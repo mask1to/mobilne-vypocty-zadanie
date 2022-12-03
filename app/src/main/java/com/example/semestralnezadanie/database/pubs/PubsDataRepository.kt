@@ -80,7 +80,12 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
     fun storePubs() : LiveData<List<PubsModel>?>
     {
         val cached = localCache.getPubs()
+        return cached
+    }
 
+    fun sortPubs() : LiveData<List<PubsModel>?>
+    {
+        val cached = localCache.sortPubs()
         return cached
     }
 

@@ -12,16 +12,10 @@ class PubsModel(
     val name : String?,
     @ColumnInfo(name = "type")
     val type : String,
-    //@ColumnInfo(name = "firm_owner")
-    //val owner : String?,
     @ColumnInfo(name = "latitude")
     val latitude : String,
     @ColumnInfo(name = "longitude")
     val longitude : String,
-    //@ColumnInfo(name = "website")
-    //val website : String?,
-    //@ColumnInfo(name = "phone_contact")
-    //val phoneContact : String?,
     @ColumnInfo(name = "users_count")
     val users : Int
 )

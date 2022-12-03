@@ -126,7 +126,6 @@ class InfoFragment : Fragment()
                     {
                         txtSmoking.text = "nie"
                     }
-
                 }
                 else
                 {
@@ -143,7 +142,6 @@ class InfoFragment : Fragment()
                     {
                         txtTakeAway.text = "nie"
                     }
-
                 }
                 else
                 {
@@ -169,18 +167,12 @@ class InfoFragment : Fragment()
             }
         }
 
-            mapButton.setOnClickListener {
+        mapButton.setOnClickListener {
             val uri =
                 "http://maps.google.com/maps?q=loc:${infoViewModel.pub.value?.latitude},${infoViewModel.pub.value?.longitude}"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             startActivity(intent)
         }
-
-        /*deleteButton.setOnClickListener {
-            //allPubs.remove(safeArgs.pubClass)
-            val action = InfoFragmentDirections.actionInfoFragmentToRecyclerFragment()
-            findNavController().navigate(action)
-        }*/
 
         webButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
@@ -206,7 +198,5 @@ class InfoFragment : Fragment()
             animationView.playAnimation()
         }
     }
-
-    //showOnMap TODO
 
 }

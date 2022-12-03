@@ -29,3 +29,25 @@ data class UserRequest(
     @SerializedName("password")
     val userPassword: String
 )
+
+data class FriendsGeneralResponse(
+    @SerializedName("user_id")
+    val userId : String,
+    @SerializedName("user_name")
+    val userName : String,
+    @SerializedName("bar_id")
+    val pubId : String,
+    @SerializedName("bar_name")
+    val pubName : String,
+    @SerializedName("time")
+    val time : String,
+    @SerializedName("bar_lat")
+    val pubLatitude : Double,
+    @SerializedName("bar_lon")
+    val pubLongitude : Double
+)
+
+data class FriendContact(
+    @SerializedName("contact")
+    val contactName : String
+)

@@ -1,10 +1,13 @@
 package com.example.semestralnezadanie.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.PubAdapter
+import com.example.semestralnezadanie.database.LocalCache
 import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.FragmentRegistrationBinding
 import com.example.semestralnezadanie.databinding.RecyclerFragmentBinding
@@ -32,8 +36,9 @@ class RecyclerFragment : Fragment()
     private var _binding : RecyclerFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var floatingButton : FloatingActionButton
+    private lateinit var friendsButton : FloatingActionButton
     private lateinit var sortingFloating : FloatingActionButton
+    private lateinit var logoutButton: FloatingActionButton
 
     companion object{
         var isSorted : Boolean = true
@@ -65,8 +70,18 @@ class RecyclerFragment : Fragment()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = PubAdapter(requireContext())
 
-        floatingButton = binding.btnFloat
-        sortingFloating = binding.btnFloat
+        sortingFloating = binding.btnSort
+        logoutButton = binding.btnLogout
+        friendsButton = binding.btnFriends
+
+        val preferences = Preferences.getInstance().getUserItem(requireContext())
+        if((preferences?.userId ?: "").isBlank())
+        {
+            Navigation.findNavController(view).navigate(R.id.action_recyclerFragment_to_loginFragment)
+            return
+        }
+
+        checkPermissions()
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -74,13 +89,22 @@ class RecyclerFragment : Fragment()
         }
 
         sortingFloating.setOnClickListener {
-            isSorted = !isSorted
-            recyclerView.adapter = PubAdapter(requireContext())
+            //isSorted = !isSorted
+            //recyclerView.adapter = PubAdapter(requireContext())
+            Toast.makeText(context, "click sort", Toast.LENGTH_SHORT).show()
+            Log.d("click", "click")
+            pubViewModel.sortPubsByName()
         }
 
-        floatingButton.setOnClickListener {
-            /*val action = RecyclerFragmentDirections.actionRecyclerFragmentToFormFragment()
-            findNavController().navigate(action)*/
+        friendsButton.setOnClickListener {
+            val action = RecyclerFragmentDirections.actionRecyclerFragmentToFriendsFragment()
+            Navigation.findNavController(view).navigate(action)
+        }
+
+        logoutButton.setOnClickListener {
+            Preferences.getInstance().clearAllData(requireContext())
+            val action = RecyclerFragmentDirections.actionRecyclerFragmentToLoginFragment()
+            Navigation.findNavController(view).navigate(action)
         }
 
         pubViewModel.allPubs.observe(viewLifecycleOwner)
@@ -93,6 +117,7 @@ class RecyclerFragment : Fragment()
         super.onViewCreated(view, savedInstanceState)
     }
 
+    /*
     override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
         return when(item.itemId){
@@ -127,7 +152,13 @@ class RecyclerFragment : Fragment()
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_24)
             else
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_sort_by_alpha_24)
-    }
+    }*/
+
+    /*private fun sortPubs()
+    {
+        pubViewModel.sortPubsByName()
+        //recyclerView.adapter?.notifyDataSetChanged()
+    }*/
 
     private fun checkPermissions() : Boolean{
         return ActivityCompat.checkSelfPermission(

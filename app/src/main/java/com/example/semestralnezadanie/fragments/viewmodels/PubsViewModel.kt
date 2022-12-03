@@ -1,5 +1,6 @@
 package com.example.semestralnezadanie.fragments.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.semestralnezadanie.database.pubs.PubsDataRepository
 import com.example.semestralnezadanie.database.pubs.PubsModel
@@ -13,13 +14,13 @@ class PubsViewModel(private val pubsDataRepository: PubsDataRepository) : ViewMo
 
     val loadData = MutableLiveData(false)
 
-    val allPubs : LiveData<List<PubsModel>?> = liveData {
+    var allPubs : LiveData<List<PubsModel>?> = liveData {
         loadData.postValue(true)
         pubsDataRepository.getPubList{ _message.postValue(LiveDataEvent(it)) }
-
         loadData.postValue(false)
         emitSource(pubsDataRepository.storePubs())
     }
+
 
     fun showMessage(message : String)
     {
@@ -32,6 +33,12 @@ class PubsViewModel(private val pubsDataRepository: PubsDataRepository) : ViewMo
             loadData.postValue(true)
             pubsDataRepository.getPubList{ _message.postValue(LiveDataEvent(it)) }
             loadData.postValue(false)
+        }
+    }
+
+    fun sortPubsByName() {
+        allPubs = liveData{
+            emitSource(pubsDataRepository.sortPubs())
         }
     }
 

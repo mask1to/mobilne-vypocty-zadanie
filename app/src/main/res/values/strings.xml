@@ -32,4 +32,12 @@
     <string name="smokingAreaTitle">Fajčiarská zóna:</string>
     <string name="takeAwayTitle">Jedlo so sebou:</string>
     <string name="openingHrsTitle">Otváracie hodiny</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="friendName">Meno priateľa</string>
+    <string name="deleteFriend">Odstrániť priateľa</string>
+    <string name="removeFriendTxt">Odstránenie priateľa</string>
+    <string name="addFriendTitle">Pridanie priateľa</string>
+    <string name="addFriend">Pridať priateľa</string>
+    <string name="pubNameTxt">Podnik</string>
 </resources>
