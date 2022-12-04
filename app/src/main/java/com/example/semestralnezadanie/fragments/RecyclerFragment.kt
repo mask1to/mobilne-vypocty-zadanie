@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -39,6 +40,7 @@ class RecyclerFragment : Fragment()
     private lateinit var friendsButton : FloatingActionButton
     private lateinit var sortingFloating : FloatingActionButton
     private lateinit var logoutButton: FloatingActionButton
+    private lateinit var closePubsBtn : FloatingActionButton
 
     companion object{
         var isSorted : Boolean = true
@@ -73,6 +75,7 @@ class RecyclerFragment : Fragment()
         sortingFloating = binding.btnSort
         logoutButton = binding.btnLogout
         friendsButton = binding.btnFriends
+        closePubsBtn = binding.btnClosePubs
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isBlank())
@@ -94,6 +97,11 @@ class RecyclerFragment : Fragment()
             Toast.makeText(context, "click sort", Toast.LENGTH_SHORT).show()
             Log.d("click", "click")
             pubViewModel.sortPubsByName()
+        }
+
+        closePubsBtn.setOnClickListener {
+            val action = RecyclerFragmentDirections.actionRecyclerFragmentToLocationFragment()
+            Navigation.findNavController(view).navigate(action)
         }
 
         friendsButton.setOnClickListener {
@@ -160,11 +168,27 @@ class RecyclerFragment : Fragment()
         //recyclerView.adapter?.notifyDataSetChanged()
     }*/
 
-    private fun checkPermissions() : Boolean{
+    private fun checkPermissions() : Boolean
+    {
         return ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkBackgroundPermissions(): Boolean
+    {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        {
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+        else
+        {
+            return true
+        }
     }
 
 }

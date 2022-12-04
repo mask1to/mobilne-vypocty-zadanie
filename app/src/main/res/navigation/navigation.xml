@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_recyclerFragment_to_friendsFragment"
             app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_recyclerFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
@@ -80,4 +83,16 @@
         android:id="@+id/friendRemoveFragment"
         android:name="com.example.semestralnezadanie.fragments.FriendRemoveFragment"
         android:label="FriendRemoveFragment" />
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.example.semestralnezadanie.fragments.LocationFragment"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
+    </fragment>
 </navigation>

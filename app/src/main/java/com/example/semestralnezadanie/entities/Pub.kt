@@ -14,4 +14,4 @@ data class Pub(
 
 data class PubDetail(val key : String, val value : String)
 
-data class MyCurrentLocation(val latitude: Double, val longitude: Double)
+data class UserCurrentLocation(val latitude: Double, val longitude: Double)

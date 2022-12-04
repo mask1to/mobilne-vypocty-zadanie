@@ -40,4 +40,5 @@
     <string name="addFriendTitle">Pridanie priateľa</string>
     <string name="addFriend">Pridať priateľa</string>
     <string name="pubNameTxt">Podnik</string>
+    <string name="checkInTitle">Check-in</string>
 </resources>

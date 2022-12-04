@@ -5,8 +5,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.example.semestralnezadanie.api.ApiRest
 import com.example.semestralnezadanie.api.PubGeneralResponse
+import com.example.semestralnezadanie.api.PubMessageRequest
 import com.example.semestralnezadanie.database.LocalCache
-import com.example.semestralnezadanie.entities.MyCurrentLocation
+import com.example.semestralnezadanie.entities.UserCurrentLocation
 import com.example.semestralnezadanie.entities.NearbyPub
 import java.io.IOException
 
@@ -163,7 +164,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
 
                     nearbyPubs = pubResponse.elements.map {
                         NearbyPub(it.id, it.tags.getOrDefault("name", ""), it.tags.getOrDefault("amenity", ""), it.latitude, it.longitude, it.tags).apply {
-                            distance = getDistanceToPubNearby(MyCurrentLocation(latitude, longitude))
+                            distance = getDistanceToPubNearby(UserCurrentLocation(latitude, longitude))
                         }
                     }
                     nearbyPubs = nearbyPubs.filter { it.pubName.isNotBlank() }.sortedBy { it.distance }
@@ -204,5 +205,53 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
         return nearbyPubs
     }
 
-    //TODO: Checkin pubs
+    suspend fun pubCheckIn(pub : NearbyPub, errorOut: (error: String) -> Unit, status : (isSuccess : Boolean) -> Unit)
+    {
+        try {
+            val response = apiService.postPubMessage(
+                PubMessageRequest(
+                    pub.pubId,
+                    pub.pubName,
+                    pub.pubAmenity,
+                    pub.latitude,
+                    pub.longitude))
+            if(response.isSuccessful)
+            {
+                response.body()?.let { _ -> status(true)
+                }
+            }
+            else if(response.code() == 400)
+            {
+                errorOut("Nesprávny request")
+            }
+            else if(response.code() == 401)
+            {
+                errorOut("Neautorizovaný request")
+            }
+            else if(response.code() == 404)
+            {
+                errorOut("Endpoint neexistuje")
+            }
+            else if(response.code() == 500)
+            {
+                errorOut("Chyba v databáze")
+            }
+            else
+            {
+                errorOut("Prihlásenie zlyhalo, vyskúšajte neskôr prosím")
+            }
+        }
+        catch (e0 : IOException)
+        {
+            e0.printStackTrace()
+            errorOut("Prihlásenie zlyhalo, skontrolujte si internetové pripojenie")
+
+        }
+        catch (e1 : Exception)
+        {
+            e1.printStackTrace()
+            errorOut("Prihlásenie zlyhalo, neočakávaná chyba")
+        }
+    }
+
 }
