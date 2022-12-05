@@ -15,7 +15,7 @@ class LocationViewModel(private val pubsDataRepository: PubsDataRepository) : Vi
     val message : LiveData<LiveDataEvent<String>> get() = _message
 
     val userLocation = MutableLiveData<UserCurrentLocation>(null)
-    val userBar = MutableLiveData<NearbyPub>(null)
+    val userPub = MutableLiveData<NearbyPub>(null)
 
     val loadData = MutableLiveData(false)
 
@@ -29,16 +29,15 @@ class LocationViewModel(private val pubsDataRepository: PubsDataRepository) : Vi
         liveData {
             loadData.postValue(true)
             it?.let { it ->
-                val getPubs = pubsDataRepository.getPubsNearby(it.latitude, it.longitude) {
+                val getPubs = pubsDataRepository.getPubsNearby(it.userLatitude, it.userLongitude) {
                     _message.postValue(
                         LiveDataEvent(it)
                     )
-
                 }
                 emit(getPubs)
-                if(userBar.value == null)
+                if(userPub.value == null)
                 {
-                    userBar.postValue(getPubs.firstOrNull())
+                    userPub.postValue(getPubs.firstOrNull())
                 }
             } ?: emit(listOf())
             loadData.postValue(false)
@@ -54,7 +53,7 @@ class LocationViewModel(private val pubsDataRepository: PubsDataRepository) : Vi
     {
         viewModelScope.launch {
             loadData.postValue(true)
-            userBar.value?.let {
+            userPub.value?.let {
                 pubsDataRepository.pubCheckIn(it, {_message.postValue(LiveDataEvent(it))}, {_isCheckedIn.postValue(LiveDataEvent(it))})
             }
             loadData.postValue(false)

@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.PendingIntent
+import android.app.PendingIntent.*
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -22,6 +23,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.semestralnezadanie.GeofenceBroadcastReceiver
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.NearbyPubAdapter
@@ -43,6 +46,7 @@ class LocationFragment : Fragment()
     private lateinit var checkInBtn : Button
     private lateinit var recyclerView : RecyclerView
     private lateinit var refreshBtn : FloatingActionButton
+    private lateinit var locationAnimation : LottieAnimationView
 
     private val locationViewModel : LocationViewModel by lazy {
         ViewModelProvider(this, ViewModelHelper.providePubViewModelFactory(requireContext()))[LocationViewModel::class.java]
@@ -53,14 +57,14 @@ class LocationFragment : Fragment()
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_BACKGROUND_LOCATION, false) ->
-            {
-                Log.d("Location", "Granted")
+            permissions.getOrDefault(Manifest.permission.ACCESS_BACKGROUND_LOCATION, false) -> {
+                // Precise location access granted.
+                locationViewModel.showMessage("Background location access granted.")
+                setupAnimation(locationAnimation)
             }
-            else ->
-            {
+            else -> {
                 locationViewModel.showMessage("Background location access denied.")
-                Log.d("Location", "Not granted")
+                // No location access granted.
             }
         }
     }
@@ -68,7 +72,6 @@ class LocationFragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         geofencingClient = LocationServices.getGeofencingClient(requireActivity())
     }
@@ -87,10 +90,11 @@ class LocationFragment : Fragment()
         recyclerView = binding.locationRecyclerView
         checkInBtn = binding.checkInBtn
         refreshBtn = binding.btnRefresh
+        locationAnimation = binding.progressBarLocation
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = NearbyPubAdapter(requireContext())
+        recyclerView.adapter = NearbyPubAdapter(locationViewModel)
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isBlank())
@@ -104,8 +108,10 @@ class LocationFragment : Fragment()
             locationmodel = locationViewModel
         }
 
-        refreshBtn.setOnClickListener {
+        setupAnimation(locationAnimation)
 
+        refreshBtn.setOnClickListener {
+            loadData()
         }
 
         checkInBtn.setOnClickListener {
@@ -136,12 +142,41 @@ class LocationFragment : Fragment()
                 {
                     locationViewModel.showMessage("Checked in")
                     locationViewModel.userLocation.value?.let {
-                        createFence(it.latitude, it.longitude)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            createFence(it.userLatitude, it.userLongitude)
+                        }
                     }
                 }
             }
         }
+
+        if(checkPermissions())
+        {
+            loadData()
+        }
+        else
+        {
+            //navigate to pubs
+        }
+
+        locationViewModel.userPub.observe(viewLifecycleOwner)
+        {
+            it?.apply {
+                binding.pubNameLocation.text = it.pubName
+                binding.distanceLocationTxt.text = it.distance.toString()
+            }
+        }
+
+        locationViewModel.message.observe(viewLifecycleOwner)
+        {
+            if(Preferences.getInstance().getUserItem(requireContext()) == null)
+            {
+                val action = LocationFragmentDirections.actionLocationFragmentToLoginFragment()
+                Navigation.findNavController(view).navigate(action)
+            }
+        }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun showPermissionAlertDialog()
@@ -151,18 +186,18 @@ class LocationFragment : Fragment()
             builder.apply {
                 setTitle("Background location needed")
                 setMessage("Allow background location (All times) for detecting when you leave bar.")
-                setPositiveButton("OK",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        locationPermissionRequest.launch(
-                            arrayOf(
-                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                            )
+                setPositiveButton("OK"
+                ) { dialog, id ->
+                    locationPermissionRequest.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
                         )
-                    })
-                setNegativeButton("Cancel",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
+                    )
+                }
+                setNegativeButton("Cancel"
+                ) { dialog, id ->
+
+                }
             }
             // Create the AlertDialog
             builder.create()
@@ -170,17 +205,21 @@ class LocationFragment : Fragment()
         alertDialog.show()
     }
 
-    private fun checkPermissions() : Boolean
+    private fun checkPermissions(): Boolean
     {
         return ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     @SuppressLint("MissingPermission")
     private fun loadData() {
-        if (checkPermissions()) {
+        if (checkPermissions())
+        {
             locationViewModel.loadData.postValue(true)
             fusedLocationProviderClient.getCurrentLocation(
                 CurrentLocationRequest.Builder().setDurationMillis(30000)
@@ -193,7 +232,8 @@ class LocationFragment : Fragment()
         }
     }
 
-    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
+    @RequiresApi(Build.VERSION_CODES.S)
+    @SuppressLint("MissingPermission")
     private fun createFence(lat: Double, lon: Double) {
         if (!checkPermissions()) {
             locationViewModel.showMessage("Geofence failed, permissions not granted.")
@@ -201,7 +241,7 @@ class LocationFragment : Fragment()
         val geofenceIntent = PendingIntent.getBroadcast(
             requireContext(), 0,
             Intent(requireContext(), GeofenceBroadcastReceiver::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            FLAG_MUTABLE or FLAG_UPDATE_CURRENT
         )
 
         val request = GeofencingRequest.Builder().apply {
@@ -217,7 +257,7 @@ class LocationFragment : Fragment()
 
         geofencingClient.addGeofences(request, geofenceIntent).run {
             addOnSuccessListener {
-                Navigation.findNavController(requireView()).navigate(R.id.action_locationFragment_to_recyclerFragment)
+                Navigation.findNavController(requireView()).navigate(R.id.recyclerFragment)
             }
             addOnFailureListener {
                 locationViewModel.showMessage("Geofence failed to create.") //permission is not granted for All times.
@@ -228,16 +268,23 @@ class LocationFragment : Fragment()
 
     private fun checkBackgroundPermissions(): Boolean
     {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-        {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-        }
-        else
-        {
+        } else {
             return true
         }
+    }
+
+    @SuppressLint("Range")
+    private fun setupAnimation(animationView: LottieAnimationView)
+    {
+        animationView.speed = 3.0F // How fast does the animation play
+        animationView.progress = 50F // Starts the animation from 50% of the beginning
+        animationView.setAnimation(R.raw.beer)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
     }
 }

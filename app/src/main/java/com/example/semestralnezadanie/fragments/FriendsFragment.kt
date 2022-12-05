@@ -29,6 +29,7 @@ class FriendsFragment : Fragment()
     private lateinit var recyclerView : RecyclerView
     private lateinit var addFriendBtn : FloatingActionButton
     private lateinit var removeFriendBtn : FloatingActionButton
+    private lateinit var refreshFriendsBtn : FloatingActionButton
 
     private val friendViewModel : FriendsViewModel by lazy {
         ViewModelProvider(this, ViewModelHelper.provideFriendViewModelFactory(requireContext()))[FriendsViewModel::class.java]
@@ -54,6 +55,7 @@ class FriendsFragment : Fragment()
 
         addFriendBtn = binding.btnAddFriend
         removeFriendBtn = binding.btnRemoveFriend
+        refreshFriendsBtn = binding.btnRefreshFriends
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isBlank())
@@ -71,6 +73,10 @@ class FriendsFragment : Fragment()
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             friendmodel = friendViewModel
+        }
+
+        refreshFriendsBtn.setOnClickListener {
+            refreshFriends(friendViewModel, preferences.userId.toLong())
         }
 
         addFriendBtn.setOnClickListener {
@@ -91,6 +97,11 @@ class FriendsFragment : Fragment()
         }
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun refreshFriends(friendsViewModel: FriendsViewModel, id : Long)
+    {
+        friendsViewModel.refreshAll(id)
     }
 
 }

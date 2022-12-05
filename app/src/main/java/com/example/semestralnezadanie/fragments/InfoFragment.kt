@@ -169,7 +169,7 @@ class InfoFragment : Fragment()
 
         mapButton.setOnClickListener {
             val uri =
-                "http://maps.google.com/maps?q=loc:${infoViewModel.pub.value?.latitude},${infoViewModel.pub.value?.longitude}"
+                "http://maps.google.com/maps?q=loc:${infoViewModel.pub.value?.lat},${infoViewModel.pub.value?.lon}"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             startActivity(intent)
         }
@@ -193,7 +193,7 @@ class InfoFragment : Fragment()
     {
         animationView.speed = 1.0F // How fast does the animation play
         animationView.progress = 50F // Starts the animation from 50% of the beginning
-        animationView.setAnimation(R.raw.lemonade)
+        //animationView.setAnimation(R.raw.lemonade)
         animationView.setOnClickListener {
             animationView.playAnimation()
         }

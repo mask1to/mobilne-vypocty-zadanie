@@ -17,7 +17,7 @@ import com.example.semestralnezadanie.fragments.FriendsFragmentDirections
 import com.example.semestralnezadanie.fragments.viewmodels.LocationViewModel
 import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 
-class NearbyPubAdapter(val nearbyPubContext : Context): RecyclerView.Adapter<NearbyPubAdapter.NearbyPubViewHolder>()
+class NearbyPubAdapter(val locationViewModel: LocationViewModel): RecyclerView.Adapter<NearbyPubAdapter.NearbyPubViewHolder>()
 {
     var data : List<NearbyPub> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
@@ -26,6 +26,14 @@ class NearbyPubAdapter(val nearbyPubContext : Context): RecyclerView.Adapter<Nea
             notifyDataSetChanged()
         }
 
+    class NearbyPubViewHolder(private val parent : ViewGroup, itemView : View = LayoutInflater.from(parent.context).inflate(
+        R.layout.nearby_item, parent, false)) : RecyclerView.ViewHolder(itemView)
+    {
+        val nameLocationPub = itemView.findViewById<TextView>(R.id.nameLocationTxt)
+        val amenityLocationPub = itemView.findViewById<TextView>(R.id.amenityLocationTxt)
+        val cardViewLocationPub = itemView.findViewById<CardView>(R.id.locationCardView)
+        val distanceLocation = itemView.findViewById<TextView>(R.id.distanceTxt)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearbyPubViewHolder
     {
@@ -34,32 +42,18 @@ class NearbyPubAdapter(val nearbyPubContext : Context): RecyclerView.Adapter<Nea
 
     override fun onBindViewHolder(holder: NearbyPubViewHolder, position: Int)
     {
-        holder.bind(data[position])
+        val item = data[position]
+        holder.nameLocationPub.text = item.pubName
+        holder.amenityLocationPub.text = item.pubAmenity
+        holder.distanceLocation.text = item.distance.toString()
+        holder.cardViewLocationPub.setOnClickListener {
+            locationViewModel.userPub.value = item
+        }
+
     }
 
     override fun getItemCount(): Int
     {
         return data.size
-    }
-
-    class NearbyPubViewHolder(private val parent : ViewGroup, itemView : View = LayoutInflater.from(parent.context).inflate(
-        R.layout.nearby_item, parent, false)) : RecyclerView.ViewHolder(itemView)
-    {
-        private lateinit var locationViewModel : LocationViewModel
-
-        fun bind(item : NearbyPub)
-        {
-            itemView.findViewById<TextView>(R.id.nameLocationTxt).text = item.pubName
-            itemView.findViewById<TextView>(R.id.amenityLocationTxt).text = item.pubAmenity
-            /*itemView.findViewById<TextView>(R.id.amenityTxt).text = item.type
-            itemView.findViewById<TextView>(R.id.pubUsersTxt).text = item.users.toString()*/
-            itemView.findViewById<CardView>(R.id.locationCardView).setOnClickListener {
-                if(!item.pubId.isNullOrEmpty())
-                {
-                    /*val action = FriendsFragmentDirections.actionFriendsFragmentToInfoFragment(item.pubId.toString())
-                    Navigation.findNavController(itemView).navigate(action)*/
-                }
-            }
-        }
     }
 }

@@ -4,60 +4,23 @@ import android.location.Location
 
 class NearbyPub(
     val pubId : String,
-    val pubName : String,
+    var pubName : String,
     val pubAmenity : String,
-    val latitude : Double,
-    val longitude : Double,
+    val lat : Double,
+    val lon : Double,
     val tags : Map<String, String>,
     var distance : Double = 0.0)
 {
-    override fun equals(other: Any?): Boolean
+
+    fun distanceTo(location: UserCurrentLocation): Double
     {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as NearbyPub
-
-        if (pubId != other.pubId) return false
-        if (pubName != other.pubName) return false
-        if (pubAmenity != other.pubAmenity) return false
-        if (latitude != other.latitude) return false
-        if (longitude != other.longitude) return false
-        if (tags != other.tags) return false
-        if (distance != other.distance) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int
-    {
-        var result = pubId.hashCode()
-        result = 31 * result + pubName.hashCode()
-        result = 31 * result + pubAmenity.hashCode()
-        result = 31 * result + latitude.hashCode()
-        result = 31 * result + longitude.hashCode()
-        result = 31 * result + tags.hashCode()
-        result = 31 * result + distance.hashCode()
-        return result
-    }
-
-    override fun toString(): String
-    {
-        return "NearbyPub(pubId='$pubId', pubName='$pubName', pubAmenity='$pubAmenity', latitude=$latitude, longitude=$longitude, tags=$tags, distance=$distance)"
-    }
-
-
-    fun getDistanceToPubNearby(userCurrentLocation: UserCurrentLocation) : Double
-    {
-        val location = Location("").apply {
-            latitude = latitude
-            longitude = longitude
+        return Location("").apply {
+            latitude=lat
+            longitude=lon
         }.distanceTo(Location("").apply {
-            latitude = userCurrentLocation.latitude
-            longitude = userCurrentLocation.longitude
+            latitude=location.userLatitude
+            longitude=location.userLongitude
         }).toDouble()
-
-        return location
     }
 
 }

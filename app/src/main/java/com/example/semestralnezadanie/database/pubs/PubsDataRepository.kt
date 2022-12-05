@@ -1,6 +1,7 @@
 package com.example.semestralnezadanie.database.pubs
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.example.semestralnezadanie.api.ApiRest
@@ -10,6 +11,8 @@ import com.example.semestralnezadanie.database.LocalCache
 import com.example.semestralnezadanie.entities.UserCurrentLocation
 import com.example.semestralnezadanie.entities.NearbyPub
 import java.io.IOException
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 class PubsDataRepository private constructor(private val localCache : LocalCache, private val apiService : ApiRest)
 {
@@ -26,22 +29,22 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
 
     }
 
-    suspend fun getPubList(errorOut: (error : String) -> Unit)
+    suspend fun getPubList(errorOut: (error : String) -> Unit, latitude : Double, longitude : Double) : List<PubsModel>
     {
+        var publist = listOf<PubsModel>()
         try{
             val response = apiService.getPubList()
 
             if(response.isSuccessful)
             {
-                response.body()?.let { pubResponse: List<PubGeneralResponse> ->
-                    var pubs = pubResponse.map {
-                        PubsModel(
-                            it.pubId.toLong(), it.pubName, it.pubAmenity,
-                            it.latitude.toString(), it.longitude.toString(), it.users
-                        )
+                response.body()?.let { pubResponse ->
+                    publist = pubResponse.map {
+                        PubsModel(it.pubId.toLong(), it.pubName, it.pubAmenity, it.latitude, it.longitude, it.users).apply {
+                            distance = (distanceTo(UserCurrentLocation(latitude, longitude))) / 1000.0
+                        }
                     }
                     localCache.deletePubs()
-                    localCache.insertPubs(pubs)
+                    localCache.insertPubs(publist)
                 } ?: errorOut("Načítanie podnikov zlyhalo")
             }
             else if(response.code() == 400)
@@ -75,17 +78,14 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
             e1.printStackTrace()
             errorOut("Načítanie všetkých podnikov zlyhalo")
         }
+        Log.d("publist", publist.toList().toString())
+
+        return publist
     }
 
     fun storePubs() : LiveData<List<PubsModel>?>
     {
         val cached = localCache.getPubs()
-        return cached
-    }
-
-    fun sortPubs() : LiveData<List<PubsModel>?>
-    {
-        val cached = localCache.sortPubs()
         return cached
     }
 
@@ -150,25 +150,22 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    suspend fun getPubsNearby(latitude : Double, longitude : Double, errorOut: (error : String) -> Unit) : List<NearbyPub>
+    suspend fun getPubsNearby(lat: Double, lon: Double, errorOut: (error: String) -> Unit) : List<NearbyPub>
     {
-        var nearbyPubs = listOf<NearbyPub>()
-
-        try{
-            val jsonQuery = "[out:json];node(around:250,$latitude,$longitude);(node(around:250)[\"amenity\"~\"^pub$|^bar$|^restaurant$|^cafe$|^fast_food$|^stripclub$|^nightclub$\"];);out body;>;out skel;"
-            var response = apiService.nearbyPub(jsonQuery)
-
-            if(response.isSuccessful)
+        var nearby = listOf<NearbyPub>()
+        try {
+            val q = "[out:json];node(around:250,$lat,$lon);(node(around:250)[\"amenity\"~\"^pub$|^bar$|^restaurant$|^cafe$|^fast_food$|^stripclub$|^nightclub$\"];);out body;>;out skel;"
+            val response = apiService.nearbyPub(q)
+            if (response.isSuccessful)
             {
-                response.body()?.let { pubResponse ->
-
-                    nearbyPubs = pubResponse.elements.map {
-                        NearbyPub(it.id, it.tags.getOrDefault("name", ""), it.tags.getOrDefault("amenity", ""), it.latitude, it.longitude, it.tags).apply {
-                            distance = getDistanceToPubNearby(UserCurrentLocation(latitude, longitude))
+                response.body()?.let { bars ->
+                    nearby = bars.elements.map {
+                        NearbyPub(it.id,it.tags.getOrDefault("name",""), it.tags.getOrDefault("amenity",""),it.latitude,it.longitude,it.tags).apply {
+                            distance = (distanceTo(UserCurrentLocation(lat,lon))) / 1000.0
                         }
                     }
-                    nearbyPubs = nearbyPubs.filter { it.pubName.isNotBlank() }.sortedBy { it.distance }
-                }?: errorOut("Načítavanie podnikov zlyhalo")
+                    nearby = nearby.filter { it.pubName.isNotBlank() }.sortedBy { it.distance }
+                } ?: errorOut("Načítanie podnikov zlyhalo")
             }
             else if(response.code() == 400)
             {
@@ -201,8 +198,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
             e1.printStackTrace()
             errorOut("Načítanie všetkých podnikov zlyhalo")
         }
-
-        return nearbyPubs
+        return nearby
     }
 
     suspend fun pubCheckIn(pub : NearbyPub, errorOut: (error: String) -> Unit, status : (isSuccess : Boolean) -> Unit)
@@ -213,10 +209,11 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                     pub.pubId,
                     pub.pubName,
                     pub.pubAmenity,
-                    pub.latitude,
-                    pub.longitude))
+                    pub.lat,
+                    pub.lon))
             if(response.isSuccessful)
             {
+                Log.d("response", response.toString())
                 response.body()?.let { _ -> status(true)
                 }
             }

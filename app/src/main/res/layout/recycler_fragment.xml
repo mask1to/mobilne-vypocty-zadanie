@@ -15,6 +15,24 @@
         android:background="@color/backgroundColor2">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnRefreshPubs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_baseline_refresh_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.106" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,13 +43,32 @@
             android:background="@android:color/transparent"
             android:backgroundTint="@color/white"
             android:contentDescription="Zotriediť"
-            android:src="@drawable/ic_baseline_sort_24"
+            android:src="@drawable/ic_baseline_sort_by_alpha_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.791" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSortDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Zotriediť"
+            android:src="@drawable/ic_baseline_123_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.694" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnLogout"
@@ -103,13 +140,12 @@
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/list_item" />
 
-        <ProgressBar
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="123dp"
             android:layout_height="118dp"
             android:layout_marginTop="254dp"
-            android:background="@color/backgroundColor2"
             android:indeterminate="true"
             android:visibility="@{pubmodel.loadData ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"

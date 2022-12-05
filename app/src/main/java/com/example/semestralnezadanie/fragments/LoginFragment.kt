@@ -1,5 +1,6 @@
 package com.example.semestralnezadanie.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.FragmentLoginBinding
@@ -26,6 +29,7 @@ class LoginFragment : Fragment()
     private val binding get() = _binding!!
     private lateinit var username : TextInputLayout
     private lateinit var password : TextInputLayout
+    private lateinit var lottieLogin : LottieAnimationView
 
     private val loginRegisterViewModel : LoginRegisterViewModel by lazy {
         ViewModelProvider(this, provideUserViewModelFactory(requireContext()))[LoginRegisterViewModel::class.java]
@@ -47,6 +51,7 @@ class LoginFragment : Fragment()
         super.onViewCreated(view, savedInstanceState)
         username = binding.usernameField
         password = binding.passwordField
+        lottieLogin = binding.progressBarLogin
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isNotBlank())
@@ -62,6 +67,7 @@ class LoginFragment : Fragment()
 
         binding.loginBtn.setOnClickListener{
             checkLoginFields()
+            setupAnimation(lottieLogin)
         }
 
         binding.registerBtn.setOnClickListener {
@@ -94,5 +100,16 @@ class LoginFragment : Fragment()
 
         loginRegisterViewModel.singIn(username.editText?.text.toString(), password.editText?.text.toString())
         return true
+    }
+
+    @SuppressLint("Range")
+    private fun setupAnimation(animationView: LottieAnimationView)
+    {
+        animationView.speed = 1.5F // How fast does the animation play
+        animationView.progress = 50F // Starts the animation from 50% of the beginning
+        animationView.setAnimation(R.raw.loading)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+
     }
 }
