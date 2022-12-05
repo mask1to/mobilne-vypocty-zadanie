@@ -6,43 +6,21 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/fetchFragment"
-        android:name="com.example.semestralnezadanie.fragments.FetchFragment"
-        android:label="FetchFragment" >
-
-        <argument
-            android:name="setName"
-            app:argType="string" />
-        <argument
-            android:name="setTyp"
-            app:argType="string" />
-        <argument
-            android:name="setLatitude"
-            app:argType="string" />
-        <argument
-            android:name="setLongitude"
-            app:argType="string" />
-        <argument
-            android:name="setPhone"
-            app:argType="string" />
-        <argument
-            android:name="setOpeningHours"
-            app:argType="string" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/formFragment"
-        android:name="com.example.semestralnezadanie.fragments.FormFragment"
-        android:label="FormFragment" />
-
-    <fragment
         android:id="@+id/recyclerFragment"
         android:name="com.example.semestralnezadanie.fragments.RecyclerFragment"
         android:label="RecyclerFragment" >
         <action
             android:id="@+id/action_recyclerFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_recyclerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_recyclerFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_recyclerFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
@@ -50,9 +28,12 @@
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
 
+        <argument
+            android:name="pubId"
+            app:argType="string" />
         <action
-            android:id="@+id/action_infoFragment_to_recyclerFragment"
-            app:destination="@id/recyclerFragment" />
+            android:id="@+id/action_infoFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -77,5 +58,41 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.example.semestralnezadanie.fragments.FriendAddFragment"
+        android:label="fragment_add_friend"
+        tools:layout="@layout/fragment_friend_add" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.semestralnezadanie.fragments.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_friendsFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+        <action
+            android:id="@+id/action_friendsFragment_to_friendRemoveFragment"
+            app:destination="@id/friendRemoveFragment" />
+        <action
+            android:id="@+id/action_friendsFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendRemoveFragment"
+        android:name="com.example.semestralnezadanie.fragments.FriendRemoveFragment"
+        android:label="FriendRemoveFragment" />
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.example.semestralnezadanie.fragments.LocationFragment"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
     </fragment>
 </navigation>

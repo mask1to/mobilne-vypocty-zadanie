@@ -28,6 +28,10 @@ interface ApiRest
     @Headers("mobv-auth: accept")
     suspend fun getPubList() : Response<List<PubGeneralResponse>>
 
+    @GET("contact/list.php")
+    @Headers("mobv-auth: accept")
+    suspend fun getFriendList() : Response<List<FriendsGeneralResponse>>
+
     @POST("bar/message.php")
     @Headers("mobv-auth: accept")
     suspend fun postPubMessage(
@@ -43,6 +47,14 @@ interface ApiRest
     suspend fun userLogin(
         @Body user : UserLoginRequest
     ) : Response<UserGeneralResponse>
+
+    @POST("contact/message.php")
+    @Headers("mobv-auth: accept")
+    suspend fun addFriend(@Body contact : FriendContact) : Response<Void>
+
+    @POST("contact/delete.php")
+    @Headers("mobv-auth: accept")
+    suspend fun removeFriend(@Body contact : FriendContact) : Response<Void>
 
     @POST("user/refresh.php")
     fun refreshUser(@Body user : UserRefresh) : Call<UserGeneralResponse>

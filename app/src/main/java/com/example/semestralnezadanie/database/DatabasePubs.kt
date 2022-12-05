@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.semestralnezadanie.database.friends.FriendsModel
 import com.example.semestralnezadanie.database.pubs.PubsModel
 
 
-@Database(entities = [PubsModel::class], version = 1, exportSchema = false)
+@Database(entities = [PubsModel::class, FriendsModel::class], version = 1, exportSchema = false)
 abstract class DatabasePubs : RoomDatabase()
 {
     abstract fun pubsDao(): DatabasePubsDao

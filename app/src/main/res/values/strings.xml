@@ -23,4 +23,23 @@
     <string name="noAccount">Ešte nemáte účet?</string>
     <string name="loginTitle">Prihlásenie</string>
     <string name="nickName">Používateľské meno</string>
+    <string name="pubName">Názov podniku</string>
+    <string name="pubAmenity">Druh podniku</string>
+    <string name="usersCount">Počet ľudí</string>
+    <string name="visitWebsite">Ísť na web podniku</string>
+    <string name="callToPub">Zavolať do podniku</string>
+    <string name="pubUsersCountTitle">Počet ľudí:</string>
+    <string name="smokingAreaTitle">Fajčiarská zóna:</string>
+    <string name="takeAwayTitle">Jedlo so sebou:</string>
+    <string name="openingHrsTitle">Otváracie hodiny</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="friendName">Meno priateľa</string>
+    <string name="deleteFriend">Odstrániť priateľa</string>
+    <string name="removeFriendTxt">Odstránenie priateľa</string>
+    <string name="addFriendTitle">Pridanie priateľa</string>
+    <string name="addFriend">Pridať priateľa</string>
+    <string name="pubNameTxt">Podnik</string>
+    <string name="checkInTitle">Check-in</string>
+    <string name="distanceTxt">Vzdialenosť</string>
 </resources>

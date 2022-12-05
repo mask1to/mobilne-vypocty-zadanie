@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.semestralnezadanie.database.pubs.PubsDataRepository
 import com.example.semestralnezadanie.fragments.viewmodels.InfoViewModel
+import com.example.semestralnezadanie.fragments.viewmodels.LocationViewModel
 import com.example.semestralnezadanie.fragments.viewmodels.PubsViewModel
 
 
@@ -22,6 +23,12 @@ class PubViewModelFactory(private val pubsDataRepository: PubsDataRepository) : 
         {
             @Suppress("UNCHECKED_CAST")
             return PubsViewModel(pubsDataRepository) as T
+        }
+
+        if(modelClass.isAssignableFrom(LocationViewModel::class.java))
+        {
+            @Suppress("UNCHECKED_CAST")
+            return LocationViewModel(pubsDataRepository) as T
         }
 
         throw IllegalArgumentException("Uknown ViewModel entity class")

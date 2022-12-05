@@ -17,10 +17,17 @@
         <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fetch_fragment.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/form_fragment.xml" value="0.24818840579710144" />
-        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_info.xml" value="0.24818840579710144" />
-        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_login.xml" value="0.2" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_add_friend.xml" value="0.40443840579710144" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_friend_remove.xml" value="0.40443840579710144" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_friends.xml" value="0.40443840579710144" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_info.xml" value="0.4377551020408163" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_location.xml" value="0.40443840579710144" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_login.xml" value="0.4" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_modify_friendlist.xml" value="0.40443840579710144" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/fragment_registration.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/friend_item.xml" value="0.40443840579710144" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/list_item.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/nearby_item.xml" value="0.40443840579710144" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/SemestralneZadanie/mobilne-vypocty-zadanie/mobilne-vypocty-zadanie/app/src/main/res/layout/recycler_fragment.xml" value="0.24818840579710144" />
       </map>
     </option>

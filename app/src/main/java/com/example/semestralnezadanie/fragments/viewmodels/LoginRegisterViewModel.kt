@@ -25,12 +25,12 @@ class LoginRegisterViewModel(private val userDataRepository: UserDataRepository)
         viewModelScope.launch {
             loadData.postValue(true)
             userDataRepository.loginUser(
-                userName,
-                userPassword,
+                userName,userPassword,
                 { _message.postValue(LiveDataEvent(it)) },
-                { userResponse.postValue(it) })
+                { userResponse.postValue(it) }
+            )
+            loadData.postValue(false)
         }
-        loadData.postValue(false)
     }
 
     fun signUp(userName: String, userPassword: String)

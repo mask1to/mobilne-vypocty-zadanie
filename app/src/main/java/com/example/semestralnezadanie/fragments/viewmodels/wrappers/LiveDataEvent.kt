@@ -4,8 +4,7 @@ package com.example.semestralnezadanie.fragments.viewmodels.wrappers
 // https://gist.github.com/JoseAlcerreca/5b661f1800e1e654f07cc54fe87441af
 open class LiveDataEvent<out T>(private val content: T)
 {
-    var hasBeenHandled = false
-        private set // Allow external read but not write
+    private var hasBeenHandled = false
 
     /**
      * Returns the content and prevents its use again.

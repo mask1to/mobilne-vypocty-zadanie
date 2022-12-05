@@ -3,6 +3,7 @@ package com.example.semestralnezadanie.fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,75 +12,166 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.lottie.LottieAnimationView
 import com.example.semestralnezadanie.R
+import com.example.semestralnezadanie.database.preferences.Preferences
+import com.example.semestralnezadanie.databinding.FragmentInfoBinding
+import com.example.semestralnezadanie.databinding.RecyclerFragmentBinding
+import com.example.semestralnezadanie.fragments.viewmodels.InfoViewModel
+import com.example.semestralnezadanie.fragments.viewmodels.PubsViewModel
+import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 
 
 class InfoFragment : Fragment()
 {
-    private lateinit var name : String
-    private lateinit var pubName : String
-    private lateinit var phoneContact : String
-    private lateinit var website : String
-    private lateinit var openingHrs : String
-    private var latitude : Float? = null
-    private var longitude : Float? = null
+    private var _binding : FragmentInfoBinding? = null
+    private val binding get() = _binding!!
+    private val args : InfoFragmentArgs by navArgs()
+
 
     private lateinit var txtName : TextView
-    private lateinit var txtOpeningHrs : TextView
+    private lateinit var txtOpening : TextView
+    private lateinit var txtSmoking : TextView
+    private lateinit var txtUsers : TextView
+    private lateinit var txtTakeAway : TextView
+
+    private lateinit var openingHrsTitle : TextView
+    private lateinit var takeAwayTitle : TextView
+    private lateinit var smokingTitle : TextView
+    private lateinit var pubUsersTitle : TextView
+
     private lateinit var mapButton : Button
     private lateinit var webButton : Button
     private lateinit var callButton : Button
-    private lateinit var deleteButton : Button
+    private lateinit var phoneContact : String
+    private lateinit var website : String
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val infoViewModel : InfoViewModel by lazy {
+        ViewModelProvider(this, ViewModelHelper.providePubViewModelFactory(requireContext()))[InfoViewModel::class.java]
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            pubName = it.getString(FetchFragment.PUB).toString()
-            website = it.getString(FetchFragment.WEBSITE).toString()
-            latitude = it.getFloat(FetchFragment.LATITUDE)
-            longitude = it.getFloat(FetchFragment.LONGITUDE)
-            phoneContact = it.getString(FetchFragment.PHONE).toString()
-            openingHrs = it.getString(FetchFragment.OPENING_HOURS).toString()
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View?
+        savedInstanceState: Bundle?): View
     {
-        return inflater.inflate(R.layout.fragment_info, container, false)
+        _binding = FragmentInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        txtName = view.findViewById(R.id.pubNameInfo)
-        txtOpeningHrs = view.findViewById(R.id.openingHrsInfo)
-        mapButton = view.findViewById(R.id.mapBtn)
-        webButton = view.findViewById(R.id.webBtn)
-        callButton = view.findViewById(R.id.callBtn)
-        deleteButton = view.findViewById(R.id.deleteBtn)
+        txtName = binding.pubNameInfo
+        txtOpening = binding.openingHrsTxt
+        txtSmoking = binding.smokingTxt
+        txtUsers = binding.userCountTxt
+        txtTakeAway = binding.takeAwayTxt
 
-        //val safeArgs : InfoFragmentArgs by navArgs()
-        //txtName.text = safeArgs.pubClass.name
-        //txtOpeningHrs.text = safeArgs.pubClass.opening_hours
+        openingHrsTitle = binding.openingHrsTitle
+        takeAwayTitle = binding.takeAwayTitle
+        smokingTitle = binding.smokingTitle
+        pubUsersTitle = binding.pubUsersTitle
+
+        val preferences = Preferences.getInstance().getUserItem(requireContext())
+        if((preferences?.userId ?: "").isBlank())
+        {
+            val action = InfoFragmentDirections.actionInfoFragmentToLoginFragment()
+            Navigation.findNavController(view).navigate(action)
+            return
+        }
+        mapButton = binding.mapBtn
+        webButton = binding.webBtn
+        callButton = binding.callBtn
+
+
+        binding.apply {
+            infomodel = infoViewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
+
+        infoViewModel.pub.observe(viewLifecycleOwner)
+        {
+            it?.let {
+                txtName.text = it.pubName
+                if(!it.tags["opening_hours"].isNullOrEmpty())
+                {
+                    txtOpening.text = it.tags["opening_hours"].toString()
+                }
+                else
+                {
+                    txtOpening.text = "Nemá otváracie hodiny"
+                }
+
+                if(!it.tags["smoking"].isNullOrEmpty())
+                {
+                    if(it.tags["smoking"].toString() == "yes")
+                    {
+                        txtSmoking.text = "áno"
+                    }
+                    else
+                    {
+                        txtSmoking.text = "nie"
+                    }
+                }
+                else
+                {
+                    txtSmoking.text = "Informácia nedostupná"
+                }
+
+                if(!it.tags["takeaway"].isNullOrEmpty())
+                {
+                    if(it.tags["takeaway"].toString() == "yes")
+                    {
+                        txtTakeAway.text = "áno"
+                    }
+                    else
+                    {
+                        txtTakeAway.text = "nie"
+                    }
+                }
+                else
+                {
+                    txtTakeAway.text = "Informácia nedostupná"
+                }
+
+                if(!it.tags["website"].isNullOrEmpty())
+                {
+                    website = it.tags["website"].toString()
+                }
+                else
+                {
+                    webButton.isEnabled = false
+                }
+                if(!it.tags["phone"].isNullOrEmpty())
+                {
+                    phoneContact = it.tags["phone"].toString()
+                }
+                else
+                {
+                    callButton.isEnabled = false
+                }
+            }
+        }
 
         mapButton.setOnClickListener {
             val uri =
-                "http://maps.google.com/maps?q=loc:$latitude,$longitude"
+                "http://maps.google.com/maps?q=loc:${infoViewModel.pub.value?.lat},${infoViewModel.pub.value?.lon}"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             startActivity(intent)
-        }
-
-        deleteButton.setOnClickListener {
-            //allPubs.remove(safeArgs.pubClass)
-            val action = InfoFragmentDirections.actionInfoFragmentToRecyclerFragment()
-            findNavController().navigate(action)
         }
 
         webButton.setOnClickListener {
@@ -91,8 +183,9 @@ class InfoFragment : Fragment()
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneContact"))
             startActivity(intent)
         }
-    }
 
+        infoViewModel.loadPubs(args.pubId)
+    }
 
 
     @SuppressLint("Range")
@@ -100,12 +193,10 @@ class InfoFragment : Fragment()
     {
         animationView.speed = 1.0F // How fast does the animation play
         animationView.progress = 50F // Starts the animation from 50% of the beginning
-        animationView.setAnimation(R.raw.lemonade)
+        //animationView.setAnimation(R.raw.lemonade)
         animationView.setOnClickListener {
             animationView.playAnimation()
         }
     }
-
-    //showOnMap TODO
 
 }
