@@ -39,7 +39,7 @@ class NearbyPubAdapter(val locationViewModel: LocationViewModel): RecyclerView.A
         val item = data[position]
         holder.nameLocationPub.text = item.pubName
         holder.amenityLocationPub.text = item.pubAmenity
-        holder.distanceLocation.text = item.distance.toString()
+        holder.distanceLocation.text = "%.2f m".format(item.distance)
         holder.cardViewLocationPub.setOnClickListener {
             locationViewModel.userPub.value = item
         }

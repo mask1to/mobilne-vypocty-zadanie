@@ -52,6 +52,8 @@ class InfoFragment : Fragment()
     private lateinit var phoneContact : String
     private lateinit var website : String
 
+    private lateinit var lottieAnimationView: LottieAnimationView
+
 
     private val infoViewModel : InfoViewModel by lazy {
         ViewModelProvider(this, ViewModelHelper.providePubViewModelFactory(requireContext()))[InfoViewModel::class.java]
@@ -86,6 +88,9 @@ class InfoFragment : Fragment()
         smokingTitle = binding.smokingTitle
         pubUsersTitle = binding.pubUsersTitle
 
+        lottieAnimationView = binding.progressBarDetail
+        setupAnimation(lottieAnimationView)
+
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isBlank())
         {
@@ -107,6 +112,7 @@ class InfoFragment : Fragment()
         {
             it?.let {
                 txtName.text = it.pubName
+                txtUsers.text = it.users.toString()
                 if(!it.tags["opening_hours"].isNullOrEmpty())
                 {
                     txtOpening.text = it.tags["opening_hours"].toString()
@@ -191,12 +197,10 @@ class InfoFragment : Fragment()
     @SuppressLint("Range")
     private fun setupAnimation(animationView: LottieAnimationView)
     {
-        animationView.speed = 1.0F // How fast does the animation play
-        animationView.progress = 50F // Starts the animation from 50% of the beginning
-        //animationView.setAnimation(R.raw.lemonade)
-        animationView.setOnClickListener {
-            animationView.playAnimation()
-        }
+        animationView.speed = 2.0F
+        animationView.progress = 50F
+        animationView.setAnimation(R.raw.detail)
+        animationView.playAnimation()
     }
 
 }

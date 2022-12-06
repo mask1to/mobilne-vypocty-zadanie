@@ -1,12 +1,17 @@
 package com.example.semestralnezadanie.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.core.view.isNotEmpty
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.api.FriendContact
 import com.example.semestralnezadanie.databinding.FragmentFriendAddBinding
@@ -24,6 +29,7 @@ class FriendRemoveFragment : Fragment()
 
     private lateinit var usernameField : TextInputLayout
     private lateinit var deleteFriendBtn : Button
+    private lateinit var builder : AlertDialog.Builder
 
     private val friendViewModel : FriendsViewModel by lazy {
         ViewModelProvider(this, ViewModelHelper.provideFriendViewModelFactory(requireContext()))[FriendsViewModel::class.java]
@@ -52,8 +58,32 @@ class FriendRemoveFragment : Fragment()
             friendmodel = friendViewModel
         }
 
+        builder = AlertDialog.Builder(requireContext())
+
         deleteFriendBtn.setOnClickListener {
-            friendViewModel.removeFriend(FriendContact(usernameField.editText?.text.toString()))
+            if(usernameField.editText?.text.toString().isBlank())
+            {
+                Toast.makeText(requireContext(), "Zadajte meno priateľa", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                builder.setTitle("Odstránenie priateľa")
+                    .setMessage("Naozaj chcete odstrániť " + usernameField.editText?.text.toString() +"?")
+                    .setCancelable(true)
+                    .setPositiveButton("Áno"){dialogInterface, it ->
+                        friendViewModel.removeFriend(FriendContact(usernameField.editText?.text.toString()))
+                        Toast.makeText(requireContext(), "Odstránenie úspešné", Toast.LENGTH_SHORT).show()
+                        Navigation.findNavController(requireView()).navigate(R.id.action_friendRemoveFragment_to_friendsFragment)
+                    }
+                    .setNegativeButton("Nie"){dialogInterface, it ->
+                        dialogInterface.cancel()
+                    }
+                    .show()
+            }
+
         }
+
+
+
     }
 }

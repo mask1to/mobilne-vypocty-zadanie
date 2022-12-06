@@ -62,17 +62,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Vzdialenosť"
+                    android:text=""
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/checkInBtn"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pubNameLocation" />
 
-                <Button
-                    android:id="@+id/checkInBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/checkInAnimation"
+                    android:layout_width="93dp"
+                    android:layout_height="88dp"
                     android:enabled="@{locationmodel.userPub!=null}"
                     android:text="Check me in"
                     app:layout_constraintTop_toTopOf="@id/pubNameLocation"

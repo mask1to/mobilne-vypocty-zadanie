@@ -42,7 +42,6 @@ class FriendsFragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setupAnimation(lottieAnimationFriends)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
@@ -62,6 +61,7 @@ class FriendsFragment : Fragment()
         removeFriendBtn = binding.btnRemoveFriend
         refreshFriendsBtn = binding.btnRefreshFriends
         lottieAnimationFriends = binding.lottieAnimationFriends
+        setupAnimation(lottieAnimationFriends)
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isBlank())
@@ -118,7 +118,6 @@ class FriendsFragment : Fragment()
         animationView.setAnimation(R.raw.friends)
         animationView.repeatCount = LottieDrawable.INFINITE
         animationView.playAnimation()
-
     }
 
 }

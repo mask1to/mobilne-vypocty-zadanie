@@ -44,7 +44,7 @@ class PubAdapter(val pubContext : Context): RecyclerView.Adapter<PubAdapter.PubV
             itemView.findViewById<TextView>(R.id.nameText).text = item.name
             itemView.findViewById<TextView>(R.id.amenityTxt).text = item.type
             itemView.findViewById<TextView>(R.id.pubUsersTxt).text = item.users.toString()
-            itemView.findViewById<TextView>(R.id.distanceMainTxt).text = item.distance.toString()
+            itemView.findViewById<TextView>(R.id.distanceMainTxt).text = "%.2f km".format(item.distance)
             itemView.findViewById<CardView>(R.id.listCardView).setOnClickListener {
                 val action = RecyclerFragmentDirections.actionRecyclerFragmentToInfoFragment(item.id.toString())
                 Navigation.findNavController(itemView).navigate(action)

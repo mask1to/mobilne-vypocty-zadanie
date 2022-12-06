@@ -35,4 +35,7 @@ interface DatabasePubsDao
 
     @Query("SELECT * FROM pubs WHERE users_count >= 1 ORDER BY users_count ASC")
     fun sortPubsByUsersCount() : LiveData<List<PubsModel>?>
+
+    @Query("SELECT * from pubs where id = :id limit 1")
+    fun getPub(id:Long) : PubsModel
 }
