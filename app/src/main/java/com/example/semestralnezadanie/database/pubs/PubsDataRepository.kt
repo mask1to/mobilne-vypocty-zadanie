@@ -5,14 +5,11 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.example.semestralnezadanie.api.ApiRest
-import com.example.semestralnezadanie.api.PubGeneralResponse
 import com.example.semestralnezadanie.api.PubMessageRequest
 import com.example.semestralnezadanie.database.LocalCache
-import com.example.semestralnezadanie.entities.UserCurrentLocation
-import com.example.semestralnezadanie.entities.NearbyPub
+import com.example.semestralnezadanie.other.UserCurrentLocation
+import com.example.semestralnezadanie.other.NearbyPub
 import java.io.IOException
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 class PubsDataRepository private constructor(private val localCache : LocalCache, private val apiService : ApiRest)
 {
@@ -111,6 +108,12 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                             pubs.longitude,
                             pubs.tags
                         )
+                        /*withContext(dispatcher)
+                        {
+                            pubInfo = pubs.pubs[0].fromWebToNormalInstance()
+                            val databasePub = databaseDAO.getPub(allpubs.pubs[0].fromWebToNormalInstance().id)
+                            pubInfo!!.users= databasePub.users
+                        }*/
                     }
                 } ?: errorOut("Načítavanie podnikov zlyhalo")
             }

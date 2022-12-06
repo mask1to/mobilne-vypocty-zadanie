@@ -5,12 +5,10 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.PendingIntent
 import android.app.PendingIntent.*
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +28,7 @@ import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.NearbyPubAdapter
 import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.FragmentLocationBinding
-import com.example.semestralnezadanie.entities.UserCurrentLocation
+import com.example.semestralnezadanie.other.UserCurrentLocation
 import com.example.semestralnezadanie.fragments.viewmodels.LocationViewModel
 import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 import com.google.android.gms.location.*

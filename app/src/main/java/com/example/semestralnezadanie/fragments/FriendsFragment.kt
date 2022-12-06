@@ -1,5 +1,6 @@
 package com.example.semestralnezadanie.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.FriendAdapter
 import com.example.semestralnezadanie.database.preferences.Preferences
@@ -30,6 +33,7 @@ class FriendsFragment : Fragment()
     private lateinit var addFriendBtn : FloatingActionButton
     private lateinit var removeFriendBtn : FloatingActionButton
     private lateinit var refreshFriendsBtn : FloatingActionButton
+    private lateinit var lottieAnimationFriends : LottieAnimationView
 
     private val friendViewModel : FriendsViewModel by lazy {
         ViewModelProvider(this, ViewModelHelper.provideFriendViewModelFactory(requireContext()))[FriendsViewModel::class.java]
@@ -38,6 +42,7 @@ class FriendsFragment : Fragment()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        setupAnimation(lottieAnimationFriends)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
@@ -56,6 +61,7 @@ class FriendsFragment : Fragment()
         addFriendBtn = binding.btnAddFriend
         removeFriendBtn = binding.btnRemoveFriend
         refreshFriendsBtn = binding.btnRefreshFriends
+        lottieAnimationFriends = binding.lottieAnimationFriends
 
         val preferences = Preferences.getInstance().getUserItem(requireContext())
         if((preferences?.userId ?: "").isBlank())
@@ -102,6 +108,17 @@ class FriendsFragment : Fragment()
     private fun refreshFriends(friendsViewModel: FriendsViewModel, id : Long)
     {
         friendsViewModel.refreshAll(id)
+    }
+
+    @SuppressLint("Range")
+    private fun setupAnimation(animationView: LottieAnimationView)
+    {
+        animationView.speed = 1.5F // How fast does the animation play
+        animationView.progress = 50F // Starts the animation from 50% of the beginning
+        animationView.setAnimation(R.raw.friends)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+
     }
 
 }

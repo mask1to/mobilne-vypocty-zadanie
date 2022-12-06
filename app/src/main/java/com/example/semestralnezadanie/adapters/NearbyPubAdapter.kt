@@ -1,21 +1,15 @@
 package com.example.semestralnezadanie.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestralnezadanie.R
-import com.example.semestralnezadanie.database.friends.FriendsModel
-import com.example.semestralnezadanie.entities.NearbyPub
-import com.example.semestralnezadanie.fragments.FriendsFragmentDirections
+import com.example.semestralnezadanie.other.NearbyPub
 import com.example.semestralnezadanie.fragments.viewmodels.LocationViewModel
-import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 
 class NearbyPubAdapter(val locationViewModel: LocationViewModel): RecyclerView.Adapter<NearbyPubAdapter.NearbyPubViewHolder>()
 {

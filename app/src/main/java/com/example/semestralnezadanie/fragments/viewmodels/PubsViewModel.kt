@@ -2,13 +2,11 @@ package com.example.semestralnezadanie.fragments.viewmodels
 
 import android.location.Location
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.example.semestralnezadanie.database.pubs.PubsDataRepository
 import com.example.semestralnezadanie.database.pubs.PubsModel
-import com.example.semestralnezadanie.entities.NearbyPub
-import com.example.semestralnezadanie.entities.UserCurrentLocation
+import com.example.semestralnezadanie.other.UserCurrentLocation
 import com.example.semestralnezadanie.fragments.viewmodels.wrappers.LiveDataEvent
 import kotlinx.coroutines.launch
 
