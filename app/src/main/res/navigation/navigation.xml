@@ -63,7 +63,11 @@
         android:id="@+id/addFriendFragment"
         android:name="com.example.semestralnezadanie.fragments.FriendAddFragment"
         android:label="fragment_add_friend"
-        tools:layout="@layout/fragment_friend_add" />
+        tools:layout="@layout/fragment_friend_add" >
+        <action
+            android:id="@+id/action_addFriendFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/friendsFragment"
         android:name="com.example.semestralnezadanie.fragments.FriendsFragment"
@@ -82,7 +86,11 @@
     <fragment
         android:id="@+id/friendRemoveFragment"
         android:name="com.example.semestralnezadanie.fragments.FriendRemoveFragment"
-        android:label="FriendRemoveFragment" />
+        android:label="FriendRemoveFragment" >
+        <action
+            android:id="@+id/action_friendRemoveFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/locationFragment"
         android:name="com.example.semestralnezadanie.fragments.LocationFragment"

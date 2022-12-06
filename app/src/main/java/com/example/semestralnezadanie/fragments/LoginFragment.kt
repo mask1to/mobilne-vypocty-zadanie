@@ -105,11 +105,10 @@ class LoginFragment : Fragment()
     @SuppressLint("Range")
     private fun setupAnimation(animationView: LottieAnimationView)
     {
-        animationView.speed = 1.5F // How fast does the animation play
-        animationView.progress = 50F // Starts the animation from 50% of the beginning
+        animationView.speed = 1.5F
+        animationView.progress = 50F
         animationView.setAnimation(R.raw.loading)
         animationView.repeatCount = LottieDrawable.INFINITE
         animationView.playAnimation()
-
     }
 }

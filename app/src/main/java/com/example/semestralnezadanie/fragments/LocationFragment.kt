@@ -5,12 +5,10 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.PendingIntent
 import android.app.PendingIntent.*
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +28,7 @@ import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.NearbyPubAdapter
 import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.FragmentLocationBinding
-import com.example.semestralnezadanie.entities.UserCurrentLocation
+import com.example.semestralnezadanie.other.UserCurrentLocation
 import com.example.semestralnezadanie.fragments.viewmodels.LocationViewModel
 import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 import com.google.android.gms.location.*
@@ -43,7 +41,7 @@ class LocationFragment : Fragment()
     private val binding get() = _binding!!
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var geofencingClient: GeofencingClient
-    private lateinit var checkInBtn : Button
+    private lateinit var checkInAnimationView: LottieAnimationView
     private lateinit var recyclerView : RecyclerView
     private lateinit var refreshBtn : FloatingActionButton
     private lateinit var locationAnimation : LottieAnimationView
@@ -61,6 +59,7 @@ class LocationFragment : Fragment()
                 // Precise location access granted.
                 locationViewModel.showMessage("Background location access granted.")
                 setupAnimation(locationAnimation)
+                setupAnimation2(checkInAnimationView)
             }
             else -> {
                 locationViewModel.showMessage("Background location access denied.")
@@ -82,13 +81,14 @@ class LocationFragment : Fragment()
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.locationRecyclerView
-        checkInBtn = binding.checkInBtn
+        checkInAnimationView = binding.checkInAnimation
         refreshBtn = binding.btnRefresh
         locationAnimation = binding.progressBarLocation
 
@@ -109,12 +109,13 @@ class LocationFragment : Fragment()
         }
 
         setupAnimation(locationAnimation)
+        setupAnimation2(checkInAnimationView)
 
         refreshBtn.setOnClickListener {
             loadData()
         }
 
-        checkInBtn.setOnClickListener {
+        checkInAnimationView.setOnClickListener {
             if(checkBackgroundPermissions())
             {
                 locationViewModel.checkInUser()
@@ -154,16 +155,12 @@ class LocationFragment : Fragment()
         {
             loadData()
         }
-        else
-        {
-            //navigate to pubs
-        }
 
         locationViewModel.userPub.observe(viewLifecycleOwner)
         {
             it?.apply {
                 binding.pubNameLocation.text = it.pubName
-                binding.distanceLocationTxt.text = it.distance.toString()
+                binding.distanceLocationTxt.text = "%.2f m".format(it.distance)
             }
         }
 
@@ -284,6 +281,16 @@ class LocationFragment : Fragment()
         animationView.speed = 3.0F // How fast does the animation play
         animationView.progress = 50F // Starts the animation from 50% of the beginning
         animationView.setAnimation(R.raw.beer)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+    }
+
+    @SuppressLint("Range")
+    private fun setupAnimation2(animationView: LottieAnimationView)
+    {
+        animationView.speed = 2.0F // How fast does the animation play
+        animationView.progress = 50F // Starts the animation from 50% of the beginning
+        animationView.setAnimation(R.raw.checkin)
         animationView.repeatCount = LottieDrawable.INFINITE
         animationView.playAnimation()
     }

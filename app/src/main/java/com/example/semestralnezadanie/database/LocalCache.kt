@@ -29,4 +29,6 @@ class LocalCache(val pubsDbDao: DatabasePubsDao)
     fun getPubs() : LiveData<List<PubsModel>?> = pubsDbDao.getPubs()
     fun sortPubs() : LiveData<List<PubsModel>?> = pubsDbDao.sortPubs()
     fun getFriends(id : Long) : LiveData<List<FriendsModel>?> = pubsDbDao.getFriends(id)
+
+    fun getPub(id : Long) : PubsModel = pubsDbDao.getPub(id)
 }

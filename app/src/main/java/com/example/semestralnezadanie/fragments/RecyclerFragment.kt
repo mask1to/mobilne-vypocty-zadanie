@@ -2,14 +2,11 @@ package com.example.semestralnezadanie.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -24,8 +21,7 @@ import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.adapters.PubAdapter
 import com.example.semestralnezadanie.database.preferences.Preferences
 import com.example.semestralnezadanie.databinding.RecyclerFragmentBinding
-import com.example.semestralnezadanie.entities.User
-import com.example.semestralnezadanie.entities.UserCurrentLocation
+import com.example.semestralnezadanie.other.UserCurrentLocation
 import com.example.semestralnezadanie.fragments.viewmodels.PubsViewModel
 import com.example.semestralnezadanie.fragments.viewmodels.ViewModelHelper
 import com.google.android.gms.location.CurrentLocationRequest

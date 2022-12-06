@@ -5,14 +5,15 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.example.semestralnezadanie.api.ApiRest
-import com.example.semestralnezadanie.api.PubGeneralResponse
 import com.example.semestralnezadanie.api.PubMessageRequest
 import com.example.semestralnezadanie.database.LocalCache
-import com.example.semestralnezadanie.entities.UserCurrentLocation
-import com.example.semestralnezadanie.entities.NearbyPub
+import com.example.semestralnezadanie.other.UserCurrentLocation
+import com.example.semestralnezadanie.other.NearbyPub
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import java.io.IOException
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 class PubsDataRepository private constructor(private val localCache : LocalCache, private val apiService : ApiRest)
 {
@@ -103,6 +104,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                 response.body()?.let { pubResponse ->
                     if(pubResponse.elements.isNotEmpty())
                     {
+
                         val pubs = pubResponse.elements[0]
                         nearbyPub = NearbyPub(
                             pubs.id, pubs.tags.getOrDefault("name", ""),
@@ -111,6 +113,15 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                             pubs.longitude,
                             pubs.tags
                         )
+                        withContext(Dispatchers.IO)
+                        {
+                            val databasePub = localCache.getPub(pubResponse.elements[0].id.toLong())
+                            Log.d("users", pubResponse.elements[0].id.toString()
+                            )
+                            nearbyPub.users= databasePub.users
+                        }
+
+
                     }
                 } ?: errorOut("Načítavanie podnikov zlyhalo")
             }
@@ -161,7 +172,7 @@ class PubsDataRepository private constructor(private val localCache : LocalCache
                 response.body()?.let { bars ->
                     nearby = bars.elements.map {
                         NearbyPub(it.id,it.tags.getOrDefault("name",""), it.tags.getOrDefault("amenity",""),it.latitude,it.longitude,it.tags).apply {
-                            distance = (distanceTo(UserCurrentLocation(lat,lon))) / 1000.0
+                            distance = (distanceTo(UserCurrentLocation(lat,lon)))
                         }
                     }
                     nearby = nearby.filter { it.pubName.isNotBlank() }.sortedBy { it.distance }

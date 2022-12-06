@@ -4,8 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.example.semestralnezadanie.database.pubs.PubsDataRepository
-import com.example.semestralnezadanie.entities.NearbyPub
-import com.example.semestralnezadanie.entities.UserCurrentLocation
+import com.example.semestralnezadanie.other.NearbyPub
+import com.example.semestralnezadanie.other.UserCurrentLocation
 import com.example.semestralnezadanie.fragments.viewmodels.wrappers.LiveDataEvent
 import kotlinx.coroutines.launch
 

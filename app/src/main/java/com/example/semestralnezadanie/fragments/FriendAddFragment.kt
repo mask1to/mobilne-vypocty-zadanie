@@ -1,5 +1,6 @@
 package com.example.semestralnezadanie.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import com.example.semestralnezadanie.R
 import com.example.semestralnezadanie.api.FriendContact
 import com.example.semestralnezadanie.databinding.FragmentFriendAddBinding
 import com.example.semestralnezadanie.fragments.viewmodels.FriendsViewModel
@@ -22,6 +26,7 @@ class FriendAddFragment : Fragment()
 
     private lateinit var usernameField : TextInputLayout
     private lateinit var addButton : Button
+    private lateinit var builder : AlertDialog.Builder
 
     private val friendViewModel : FriendsViewModel by lazy {
         ViewModelProvider(this, ViewModelHelper.provideFriendViewModelFactory(requireContext()))[FriendsViewModel::class.java]
@@ -50,13 +55,29 @@ class FriendAddFragment : Fragment()
             friendmodel = friendViewModel
         }
 
-
+        builder = AlertDialog.Builder(requireContext())
 
         addButton.setOnClickListener {
-            Log.d("meno", usernameField.editText?.text.toString())
-            Log.d("click", "click")
-            friendViewModel.addFriend(FriendContact(usernameField.editText?.text.toString()))
-        }
 
+            if(usernameField.editText?.text.toString().isBlank())
+            {
+                Toast.makeText(requireContext(), "Zadajte meno priateľa", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                builder.setTitle("Pridanie priateľa")
+                    .setMessage("Naozaj chcete pridať " + usernameField.editText?.text.toString() +"?")
+                    .setCancelable(true)
+                    .setPositiveButton("Áno"){dialogInterface, it ->
+                        friendViewModel.addFriend(FriendContact(usernameField.editText?.text.toString()))
+                        Toast.makeText(requireContext(), "Pridanie úspešné", Toast.LENGTH_SHORT).show()
+                        Navigation.findNavController(requireView()).navigate(R.id.action_addFriendFragment_to_friendsFragment)
+                    }
+                    .setNegativeButton("Nie"){dialogInterface, it ->
+                        dialogInterface.cancel()
+                    }
+                    .show()
+            }
+        }
     }
 }

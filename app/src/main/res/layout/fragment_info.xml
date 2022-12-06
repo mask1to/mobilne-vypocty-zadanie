@@ -171,16 +171,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBarDetail"
             style="?android:attr/progressBarStyle"
-            android:layout_width="123dp"
-            android:layout_height="118dp"
-            android:layout_marginTop="254dp"
-            android:background="@color/backgroundColor2"
+            android:layout_width="409dp"
+            android:layout_height="293dp"
+            android:layout_marginTop="208dp"
             android:indeterminate="true"
             android:visibility="@{infomodel.loadData ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.484"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
